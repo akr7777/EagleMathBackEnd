@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const materials_1 = require("./trashData/materials");
 const app = (0, express_1.default)();
-const port = 3000;
+const port = process.env.PORT || 8080;
 const jsonBodyMiddleware = express_1.default.json();
 app.use(jsonBodyMiddleware);
 // respond with "hello world" when a GET request is made to the homepage
@@ -23,6 +23,7 @@ app.get('/materials', function (req, res) {
         categories: cat,
         materials: mat,
     });*/
+    //dshdsdsudh
     //common output
     res.json({
         categories: materials_1.categoriesAPI,
@@ -42,5 +43,5 @@ app.get('/materials/:id', (req, res) => {
     }
 });
 app.listen(port, () => {
-    console.log('example port listening, port N', port);
+    console.log('example port listening (time 17:21), port N', port);
 });
