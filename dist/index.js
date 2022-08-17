@@ -11,6 +11,9 @@ const port = 3000;
 const jsonBodyMiddleware = express_1.default.json();
 app.use(jsonBodyMiddleware);
 // respond with "hello world" when a GET request is made to the homepage
+app.get('/', (req, res) => {
+    res.send('HHHHIIIIII!');
+});
 app.get('/materials', function (req, res) {
     //res.send({message: 'hello world'});
     //find something though query params like /cources?title=end
