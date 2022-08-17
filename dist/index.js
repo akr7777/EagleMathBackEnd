@@ -41,7 +41,6 @@ app.get('/materials/:id', (req, res) => {
         res.sendStatus(404);
     }
 });
-/*
 app.listen(port, () => {
     console.log('example port listening, port N', port);
-})*/
+});
