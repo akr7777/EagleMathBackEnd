@@ -6,7 +6,7 @@
   "author": "ndv",
   "license": "MIT",
   "scripts": {
-    "start": "start",
+    "start": "yarn start",
     "watch": "tsc -w",
     "dev": "nodemon ./dist/index.js"
   },
