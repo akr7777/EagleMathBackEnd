@@ -6,6 +6,7 @@
   "author": "ndv",
   "license": "MIT",
   "scripts": {
+    "start": "start",
     "watch": "tsc -w",
     "dev": "nodemon ./dist/index.js"
   },
