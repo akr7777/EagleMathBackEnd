@@ -11,7 +11,7 @@ const port = process.env.PORT || 3001;
 const cors = require('cors');
 app.use(cors());
 
-app.use('/materials', materialsRouter);
+//app.use('/materials', materialsRouter);
 
 
 /*app.use(cors({
