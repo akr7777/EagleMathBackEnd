@@ -20,7 +20,7 @@ app.use('/materials', materialsRouter);
 const jsonBodyMiddleware = express.json();
 app.use(jsonBodyMiddleware);
 
-console.log('1232')
+//console.log('1232')
 //console.log('INDEX res=', res);
 
 app.listen(port, () => {
