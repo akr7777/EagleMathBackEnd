@@ -1,9 +1,10 @@
+
 export type MaterialType = {
     id: number | string,
     parentId: number | null | string,
     label: string,
     //items: Array<MaterialType>,//if sub-categories exists
-    description?: string,
+    content?: string,
 }
 export type CategoryType = {
     id: number | string,
@@ -27,6 +28,6 @@ export const categoriesAPI: CategoryType[] = [
     },
 ]
 export const materialsAPI: MaterialType[] = [
-    {id: '7', parentId: 4, label: "круги материал", description: 'круги материал описание'},
-    {id: 8, parentId: '5', label: "квадраты материал", description: 'квадраты материал описание'},
+    {id: '7', parentId: 4, label: "круги материал", content: 'круги материал описание'},
+    {id: 8, parentId: '5', label: "квадраты материал", content: 'квадраты материал описание'},
 ]

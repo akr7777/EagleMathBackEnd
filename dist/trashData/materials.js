@@ -15,6 +15,6 @@ exports.categoriesAPI = [
     },
 ];
 exports.materialsAPI = [
-    { id: '7', parentId: 4, label: "круги материал", description: 'круги материал описание' },
-    { id: 8, parentId: '5', label: "квадраты материал", description: 'квадраты материал описание' },
+    { id: '7', parentId: 4, label: "круги материал", content: 'круги материал описание' },
+    { id: 8, parentId: '5', label: "квадраты материал", content: 'квадраты материал описание' },
 ];
