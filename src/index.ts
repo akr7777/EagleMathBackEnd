@@ -20,8 +20,10 @@ app.use('/materials', materialsRouter);
 const jsonBodyMiddleware = express.json();
 app.use(jsonBodyMiddleware);
 
-//console.log('1232')
 //console.log('INDEX res=', res);
+app.get('/', cors(), (req, res, next) => {
+    res.send('!!!!!!!');
+});
 
 app.listen(port, () => {
     console.log(`server started on port ${port}`)
