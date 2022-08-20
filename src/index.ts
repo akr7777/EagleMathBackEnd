@@ -23,6 +23,7 @@ app.use(jsonBodyMiddleware);
 //console.log('INDEX res=', res);
 app.get('/', cors(), (req, res, next) => {
     res.send('This is an empty END POINT /');
+    //sfdfsfd
 });
 
 app.listen(port, () => {
