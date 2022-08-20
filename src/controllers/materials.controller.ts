@@ -2,9 +2,10 @@ const db = require('./../DataBaseAPI/db');
 
 class MaterialsController {
     async getMaterials(req: any, res: any) {
-        console.log('materialsController/getMaterials before')
+        console.log('materialsController/getMaterials BEFORE the query')
         //const allMaterials = await db.query(`SELECT * FROM materials;`);
         const allMaterials = db.query1('Select * from materials;')
+        console.log('materialsController/getMaterials AFTER the query, allMaterials=',allMaterials)
         res.json(allMaterials.rows);
     }
 }

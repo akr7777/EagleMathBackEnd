@@ -11,7 +11,7 @@ const port = process.env.PORT || 3001;
 const cors = require('cors');
 app.use(cors());
 
-//app.use('/materials', materialsRouter);
+app.use('/materials', materialsRouter);
 
 
 /*app.use(cors({
@@ -22,7 +22,7 @@ app.use(jsonBodyMiddleware);
 
 //console.log('INDEX res=', res);
 app.get('/', cors(), (req, res, next) => {
-    res.send('!!!!!!!');
+    res.send('This is an empty END POINT /');
 });
 
 app.listen(port, () => {
