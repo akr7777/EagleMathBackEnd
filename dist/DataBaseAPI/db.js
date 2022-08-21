@@ -10,13 +10,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 /*const Pool = require('pg').Pool;
 const config = {
-    host: 'ec2-44-208-88-195.compute-1.amazonaws.com',
-    database: 'dc9ba0jlsur7fn',
+    host: '',
+    database: '',
     port: 5432,
-    user: 'vdbadvhizpjein',
-    password: '8ffdc7f70733091e511e36537270d8f6c291c60cc4154823c2e0955223bf8aa0',
+    user: '',
+    password: '',
     connection: {
-        connectionString: 'postgres://vdbadvhizpjein:8ffdc7f70733091e511e36537270d8f6c291c60cc4154823c2e0955223bf8aa0@ec2-44-208-88-195.compute-1.amazonaws.com:5432/dc9ba0jlsur7fn',//process.env.DATABASE_URL,
+        connectionString: '',//process.env.DATABASE_URL,
         ssl: {
             rejectUnauthorized: true
         }
@@ -26,13 +26,13 @@ const config = {
 const pool = new Pool(config);*/
 const { Client } = require('pg');
 const config = {
-    host: 'ec2-44-208-88-195.compute-1.amazonaws.com',
-    database: 'dc9ba0jlsur7fn',
+    host: '',
+    database: '',
     port: 5432,
-    user: 'vdbadvhizpjein',
-    password: '8ffdc7f70733091e511e36537270d8f6c291c60cc4154823c2e0955223bf8aa0',
+    user: '',
+    password: '',
     connection: {
-        connectionString: 'postgres://vdbadvhizpjein:8ffdc7f70733091e511e36537270d8f6c291c60cc4154823c2e0955223bf8aa0@ec2-44-208-88-195.compute-1.amazonaws.com:5432/dc9ba0jlsur7fn',
+        connectionString: '',
         ssl: {
             rejectUnauthorized: true
         }
@@ -41,8 +41,8 @@ const config = {
 };
 module.exports = {
     query1: (text) => __awaiter(void 0, void 0, void 0, function* () {
-        const client = new Client(config);
-        console.log('Trying to connect...');
+        const client = yield new Client(config);
+        console.log('Trying to connect...', client);
         yield client.connect();
         console.log('connected');
         const res = yield client.query(text);

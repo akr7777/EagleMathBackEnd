@@ -12,10 +12,6 @@ const app = (0, express_1.default)();
 const port = process.env.PORT || 3001;
 const cors = require('cors');
 app.use(cors());
-app.use('/materials', materialsRouter);
-/*app.use(cors({
-    origin: 'http://localhost'
-}));*/
 const jsonBodyMiddleware = express_1.default.json();
 app.use(jsonBodyMiddleware);
 //console.log('INDEX res=', res);
@@ -23,6 +19,7 @@ app.get('/', cors(), (req, res, next) => {
     res.send('This is an empty END POINT /');
     //sfdfsfd
 });
+app.use('/materials', materialsRouter);
 app.listen(port, () => {
     console.log(`server started on port ${port}`);
 });

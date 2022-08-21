@@ -8,15 +8,22 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+Object.defineProperty(exports, "__esModule", { value: true });
+const materials_1 = require("../trashData/materials");
+const categories_1 = require("../trashData/categories");
 const db = require('./../DataBaseAPI/db');
 class MaterialsController {
     getMaterials(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log('materialsController/getMaterials BEFORE the query');
-            const allMaterials = db.query1('Select * from materials;');
-            console.log('materialsController/getMaterials AFTER the query, allMaterials=', allMaterials);
-            res.json(allMaterials.rows);
+            /* console.log('materialsController/getMaterials BEFORE the query')
+             const allMaterials = await db.query1('Select * from materials;')
+             console.log('materialsController/getMaterials AFTER the query, allMaterials=',allMaterials)
+             res.json(allMaterials.rows);*/
+            res.json(materials_1.materialsAPI);
         });
+    }
+    getCategories(req, res) {
+        res.json(categories_1.categoriesAPI);
     }
 }
 module.exports = new MaterialsController();
