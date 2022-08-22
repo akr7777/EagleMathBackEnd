@@ -1,7 +1,7 @@
-//import {Router} from "express";
+//import {router} from "../index";
 const Router = require("express");
-const router = new Router();
-//import MaterialsController from '../controllers/materials.controller';
+export const router = new Router();
+
 const materialsController = require('./../controllers/materials.controller');
 
 router.get('/getAllMaterials', materialsController.getMaterials);

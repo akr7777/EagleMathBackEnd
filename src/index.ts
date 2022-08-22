@@ -1,9 +1,7 @@
 //const express = require('express');
 import express from 'express';
-import res from "./DataBaseAPI/_dbConnection";
-//import {categoriesAPI, materialsAPI} from "./trashData/materials";
-//import res, {client, pool} from "./DataBaseAPI/_dbConnection";
 const materialsRouter = require('./rotes/materials.routes');
+const tasksRouter = require('./rotes/tasks.routes');
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -13,13 +11,14 @@ app.use(cors());
 const jsonBodyMiddleware = express.json();
 app.use(jsonBodyMiddleware);
 
-//console.log('INDEX res=', res);
+/*const Router = require("express");
+export const router = new Router();*/
+
 app.get('/', cors(), (req, res, next) => {
     res.send('This is an empty END POINT /');
-    //sfdfsfd
 });
-
 app.use('/materials', materialsRouter);
+app.use('/tasks', tasksRouter);
 
 app.listen(port, () => {
     console.log(`server started on port ${port}`)
