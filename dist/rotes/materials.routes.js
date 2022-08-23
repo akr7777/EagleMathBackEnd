@@ -6,5 +6,5 @@ const Router = require("express");
 exports.router = new Router();
 const materialsController = require('./../controllers/materials.controller');
 exports.router.get('/getAllMaterials', materialsController.getMaterials);
-exports.router.get('/getAllCategories', materialsController.getCategories);
+//router.get('/getAllCategories', materialsController.getCategories);
 module.exports = exports.router;

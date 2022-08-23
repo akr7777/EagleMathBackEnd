@@ -11,9 +11,9 @@ class TasksController {
         res.json(allMaterials.rows);*/
         res.json(tasksAPI);
     }
-    getAllCategories(req:any, res:any) {
+    /*getAllCategories(req:any, res:any) {
         res.json(categoriesAPI)
-    }
+    }*/
 }
 
 module.exports = new TasksController();

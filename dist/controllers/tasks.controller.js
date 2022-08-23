@@ -9,7 +9,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const categories_1 = require("../trashData/categories");
 const tasks_1 = require("../trashData/tasks");
 const db = require('./../DataBaseAPI/db');
 class TasksController {
@@ -21,9 +20,6 @@ class TasksController {
              res.json(allMaterials.rows);*/
             res.json(tasks_1.tasksAPI);
         });
-    }
-    getAllCategories(req, res) {
-        res.json(categories_1.categoriesAPI);
     }
 }
 module.exports = new TasksController();

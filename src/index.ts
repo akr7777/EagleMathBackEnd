@@ -2,6 +2,7 @@
 import express from 'express';
 const materialsRouter = require('./rotes/materials.routes');
 const tasksRouter = require('./rotes/tasks.routes');
+const categoriesRouter = require('./rotes/categories.routes');
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -19,6 +20,7 @@ app.get('/', cors(), (req, res, next) => {
 });
 app.use('/materials', materialsRouter);
 app.use('/tasks', tasksRouter);
+app.use('/categories', categoriesRouter);
 
 app.listen(port, () => {
     console.log(`server started on port ${port}`)

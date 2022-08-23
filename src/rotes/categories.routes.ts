@@ -1,9 +1,9 @@
 const Router = require("express");
 export const router = new Router();
 
-const tasksController = require('./../controllers/tasks.controller');
+const categoriesController = require('./../controllers/categories.controller');
 
-router.get('/getAllTasks', tasksController.getAllTasks);
+router.get('/getAllCategories', categoriesController.getAllCategories);
 //router.get('/getAllCategories', tasksController.getAllCategories);
 
 module.exports = router;

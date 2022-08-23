@@ -11,9 +11,9 @@ class MaterialsController {
         res.json(allMaterials.rows);*/
         res.json(materialsAPI);
     }
-    getCategories(req:any, res:any) {
+    /*getCategories(req:any, res:any) {
         res.json(categoriesAPI)
-    }
+    }*/
 }
 
 module.exports = new MaterialsController();
