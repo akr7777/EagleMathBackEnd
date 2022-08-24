@@ -11,8 +11,15 @@ class CategoriesController {
         res.json(allMaterials.rows);*!/
         res.json(categoriesAPI);
     }*/
-    async getAllCategories(req:any, res:any) {
-        res.json(categoriesAPI)
+    /*async getAllCategories(req:any, res:any) {
+        //res.json(categoriesAPI)
+    }*/
+    async getAllCategories (req: any, res: any) {
+        //console.log('materialsController/getMaterials BEFORE the query')
+        const allCategories = await db.query1('Select * from materials;')
+        console.log('materialsController/getMaterials AFTER the query, allMaterials=',allCategories)
+        res.json(allCategories.rows);
+        res.json(categoriesAPI);
     }
 }
 
