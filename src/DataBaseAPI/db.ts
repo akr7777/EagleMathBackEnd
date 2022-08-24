@@ -17,11 +17,11 @@ const pool = new Pool(config);*/
 const { Client } = require('pg');
 
 const config = {
-    host: '',
-    database: '',
+    host: 'localhost',
+    database: 'public',
     port: 5432,
-    user: '',
-    password: '',
+    user: 'postgres',
+    password: '111111',
     connection: {
         connectionString: '',//process.env.DATABASE_URL,
         ssl: {
