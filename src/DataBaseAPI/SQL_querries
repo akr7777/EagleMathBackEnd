@@ -21,6 +21,7 @@ INSERT INTO categories (id, parentId, label, items) VALUES ('3', '1', 'rеоме
 INSERT INTO categories (id, parentId, label, items) VALUES ('4', '3', 'круги', '[]');
 INSERT INTO categories (id, parentId, label, items) VALUES ('5', '3', 'квадраты', '[]');
 INSERT INTO categories (id, parentId, label, items) VALUES ('6', '', 'Физика', '[]');
+INSERT INTO categories (id, parentId, label, items) VALUES ('8', '', 'Химия', '[]');
 INSERT INTO categories (id, parentId, label, items) VALUES ('7', '6', 'phisics topic 3001 srv', '[]');
 
 --Заполняем тестовыми данными таблицу materials
