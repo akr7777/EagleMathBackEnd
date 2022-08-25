@@ -1,5 +1,6 @@
 import {categoriesAPI} from "../trashData/categories";
 import {tasksAPI} from "../trashData/tasks";
+import {log} from "util";
 
 const db = require('./../DataBaseAPI/db');
 
@@ -17,7 +18,8 @@ class CategoriesController {
     async getAllCategories (req: any, res: any) {
         //console.log('materialsController/getMaterials BEFORE the query')
         const allCategories = await db.query1('Select * from materials;')
-        console.log('materialsController/getMaterials AFTER the query, allMaterials=',allCategories)
+        //console.log('materialsController/getMaterials AFTER the query, allMaterials=',allCategories)
+        console.log('allCategories.rows=', allCategories.rows)
         res.status(200).json(allCategories.rows);
         //res.json(categoriesAPI);
     }
