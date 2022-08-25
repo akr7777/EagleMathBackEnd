@@ -1,10 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.router = void 0;
-//import {router} from "../index";
 const Router = require("express");
 exports.router = new Router();
 const materialsController = require('./../controllers/materials.controller');
 exports.router.get('/getAllMaterials', materialsController.getMaterials);
-//router.get('/getAllCategories', materialsController.getCategories);
 module.exports = exports.router;
