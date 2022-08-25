@@ -22,11 +22,9 @@ class MaterialsController {
             let client = new pg_1.default.Client(process.env.DATABASE_URL);
             yield client.connect();
             const allTasks = yield client.query(text);
-            //console.log('allCategories.rows=', allCategories.rows)
             res.status(200).json(allTasks.rows);
             yield client.end();
             //const allCategories = await db.query1('Select * from categories;')
-            //console.log('allCategories.rows=', allCategories.rows)
             //res.status(200).json(allCategories.rows);
             //res.json(categoriesAPI);
         });

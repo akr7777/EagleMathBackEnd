@@ -8,11 +8,9 @@ class MaterialsController {
         let client = new pg.Client(process.env.DATABASE_URL);
         await client.connect();
         const allTasks = await client.query(text);
-        //console.log('allCategories.rows=', allCategories.rows)
         res.status(200).json(allTasks.rows);
         await client.end();
         //const allCategories = await db.query1('Select * from categories;')
-        //console.log('allCategories.rows=', allCategories.rows)
         //res.status(200).json(allCategories.rows);
         //res.json(categoriesAPI);
     }
