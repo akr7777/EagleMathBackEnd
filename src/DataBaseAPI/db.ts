@@ -49,8 +49,7 @@ const config = {
 }
 import pg from 'pg';
 //let pg = require("pg")
-let connectionString = "pg://postgres:postgres@localhost:5432/students";
-connectionString = 'postgres://vdbadvhizpjein:8ffdc7f70733091e511e36537270d8f6c291c60cc4154823c2e0955223bf8aa0@ec2-44-208-88-195.compute-1.amazonaws.com:5432/dc9ba0jlsur7fn';
+let connectionString = "";
 let client = new pg.Client(process.env.DATABASE_URL);
 //client.connect();
 
