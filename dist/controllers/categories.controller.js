@@ -9,7 +9,6 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const categories_1 = require("../trashData/categories");
 const db = require('./../DataBaseAPI/db');
 class CategoriesController {
     /*async getAllTasks(req: any, res: any) {
@@ -27,8 +26,8 @@ class CategoriesController {
             //console.log('materialsController/getMaterials BEFORE the query')
             const allCategories = yield db.query1('Select * from materials;');
             console.log('materialsController/getMaterials AFTER the query, allMaterials=', allCategories);
-            res.json(allCategories.rows);
-            res.json(categories_1.categoriesAPI);
+            res.status(200).json(allCategories.rows);
+            //res.json(categoriesAPI);
         });
     }
 }

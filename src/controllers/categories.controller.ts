@@ -18,8 +18,8 @@ class CategoriesController {
         //console.log('materialsController/getMaterials BEFORE the query')
         const allCategories = await db.query1('Select * from materials;')
         console.log('materialsController/getMaterials AFTER the query, allMaterials=',allCategories)
-        res.json(allCategories.rows);
-        res.json(categoriesAPI);
+        res.status(200).json(allCategories.rows);
+        //res.json(categoriesAPI);
     }
 }
 
