@@ -1,19 +1,21 @@
-import {materialsAPI} from "../trashData/materials";
-import {categoriesAPI} from "../trashData/categories";
-
-const db = require('./../DataBaseAPI/db');
+import pg from "pg";
 
 class MaterialsController {
-    async getMaterials(req: any, res: any) {
-       /* console.log('materialsController/getMaterials BEFORE the query')
-        const allMaterials = await db.query1('Select * from materials;')
-        console.log('materialsController/getMaterials AFTER the query, allMaterials=',allMaterials)
-        res.json(allMaterials.rows);*/
-        res.json(materialsAPI);
+    async getAllMaterials (req: any, res: any) {
+        //console.log('materialsController/getMaterials BEFORE the query')
+        //const allCategories = await db.query1('Select * from categories;');
+        const text = 'Select * from materials;'
+        let client = new pg.Client(process.env.DATABASE_URL);
+        await client.connect();
+        const allTasks = await client.query(text);
+        //console.log('allCategories.rows=', allCategories.rows)
+        res.status(200).json(allTasks.rows);
+        await client.end();
+        //const allCategories = await db.query1('Select * from categories;')
+        //console.log('allCategories.rows=', allCategories.rows)
+        //res.status(200).json(allCategories.rows);
+        //res.json(categoriesAPI);
     }
-    /*getCategories(req:any, res:any) {
-        res.json(categoriesAPI)
-    }*/
 }
 
 module.exports = new MaterialsController();

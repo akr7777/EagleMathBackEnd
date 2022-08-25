@@ -6,16 +6,7 @@ import {log} from "util";
 import pg from 'pg';
 
 class CategoriesController {
-    /*async getAllTasks(req: any, res: any) {
-       /!* console.log('materialsController/getMaterials BEFORE the query')
-        const allMaterials = await db.query1('Select * from materials;')
-        console.log('materialsController/getMaterials AFTER the query, allMaterials=',allMaterials)
-        res.json(allMaterials.rows);*!/
-        res.json(categoriesAPI);
-    }*/
-    /*async getAllCategories(req:any, res:any) {
-        //res.json(categoriesAPI)
-    }*/
+
     async getAllCategories (req: any, res: any) {
         //console.log('materialsController/getMaterials BEFORE the query')
         //const allCategories = await db.query1('Select * from categories;');
@@ -23,7 +14,7 @@ class CategoriesController {
         let client = new pg.Client(process.env.DATABASE_URL);
         await client.connect();
         const allCategories = await client.query(text);
-        console.log('allCategories.rows=', allCategories.rows)
+        //console.log('allCategories.rows=', allCategories.rows)
         res.status(200).json(allCategories.rows);
         await client.end();
         //const allCategories = await db.query1('Select * from categories;')

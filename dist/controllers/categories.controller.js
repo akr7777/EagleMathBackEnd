@@ -15,16 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 //const db = require('./../DataBaseAPI/db');
 const pg_1 = __importDefault(require("pg"));
 class CategoriesController {
-    /*async getAllTasks(req: any, res: any) {
-       /!* console.log('materialsController/getMaterials BEFORE the query')
-        const allMaterials = await db.query1('Select * from materials;')
-        console.log('materialsController/getMaterials AFTER the query, allMaterials=',allMaterials)
-        res.json(allMaterials.rows);*!/
-        res.json(categoriesAPI);
-    }*/
-    /*async getAllCategories(req:any, res:any) {
-        //res.json(categoriesAPI)
-    }*/
     getAllCategories(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             //console.log('materialsController/getMaterials BEFORE the query')
@@ -33,7 +23,7 @@ class CategoriesController {
             let client = new pg_1.default.Client(process.env.DATABASE_URL);
             yield client.connect();
             const allCategories = yield client.query(text);
-            console.log('allCategories.rows=', allCategories.rows);
+            //console.log('allCategories.rows=', allCategories.rows)
             res.status(200).json(allCategories.rows);
             yield client.end();
             //const allCategories = await db.query1('Select * from categories;')
