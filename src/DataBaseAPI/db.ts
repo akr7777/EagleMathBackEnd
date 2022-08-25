@@ -57,9 +57,9 @@ module.exports = {
     query1: async (text: string) => {
         //const client = await new Client(config);
         try {
-            console.log('!!!!!!!!Trying to connect...');
+            //console.log('!!!!!!!!Trying to connect...');
             await client.connect();
-            console.log('!!!!!!!!connected');
+            //console.log('!!!!!!!!connected');
             const res = await client.query(text);
             client.end();
             return res;

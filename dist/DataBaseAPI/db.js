@@ -69,9 +69,9 @@ module.exports = {
     query1: (text) => __awaiter(void 0, void 0, void 0, function* () {
         //const client = await new Client(config);
         try {
-            console.log('!!!!!!!!Trying to connect...');
+            //console.log('!!!!!!!!Trying to connect...');
             yield client.connect();
-            console.log('!!!!!!!!connected');
+            //console.log('!!!!!!!!connected');
             const res = yield client.query(text);
             client.end();
             return res;
