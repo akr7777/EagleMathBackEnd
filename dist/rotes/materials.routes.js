@@ -4,5 +4,5 @@ exports.router = void 0;
 const Router = require("express");
 exports.router = new Router();
 const materialsController = require('./../controllers/materials.controller');
-exports.router.get('/getAllMaterials', materialsController.getMaterials);
+exports.router.get('/getAllMaterials', materialsController.getAllMaterials);
 module.exports = exports.router;
