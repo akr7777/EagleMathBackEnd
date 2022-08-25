@@ -57,11 +57,11 @@ module.exports = {
     query1: async (text: string) => {
         //const client = await new Client(config);
         try {
-            console.log('!!!!!!!!Trying to connect.66..');
+            console.log('!!!!!!!!Trying to connect...');
             await client.connect();
             console.log('!!!!!!!!connected');
             const res = await client.query(text);
-            console.log('res', res);
+            client.end();
             return res;
         }
         catch (e) {

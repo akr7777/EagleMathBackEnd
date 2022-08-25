@@ -24,8 +24,7 @@ class CategoriesController {
     getAllCategories(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             //console.log('materialsController/getMaterials BEFORE the query')
-            const allCategories = yield db.query1('Select * from materials;');
-            //console.log('materialsController/getMaterials AFTER the query, allMaterials=',allCategories)
+            const allCategories = yield db.query1('Select * from categories;');
             console.log('allCategories.rows=', allCategories.rows);
             res.status(200).json(allCategories.rows);
             //res.json(categoriesAPI);
