@@ -53,6 +53,7 @@ let connectionString = "";
 let client = new pg.Client(process.env.DATABASE_URL);
 //client.connect();
 
+/*
 module.exports = {
     query1: async (text: string) => {
         //const client = await new Client(config);
@@ -68,4 +69,4 @@ module.exports = {
             console.log('312432error=', e)
         }
     }
-}
+}*/

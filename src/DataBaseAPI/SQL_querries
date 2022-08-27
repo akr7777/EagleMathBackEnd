@@ -1,14 +1,14 @@
--- DROP TABLE categories;
--- DROP TABLE materials;
--- DROP TABLE tasks;
+DROP TABLE categories;
+DROP TABLE materials;
+DROP TABLE tasks;
 
 --Создаем таблицы:
 
 CREATE TABLE categories (
     id varchar(255),
     parentId varchar(255),
-    label varchar(255),
-    items varchar
+    label varchar(255)
+    --items: varchar
 );
 CREATE TABLE materials (
     id varchar(255),
@@ -26,19 +26,31 @@ CREATE TABLE tasks (
 
 
 --Заполняем тестовыми данными таблицу categories
-INSERT INTO categories (id, parentId, label, items) VALUES ('1', '0', 'Матeматика', '[]');
-INSERT INTO categories (id, parentId, label, items) VALUES ('2', '1', 'алгебра', '[]');
-INSERT INTO categories (id, parentId, label, items) VALUES ('3', '1', 'rеометрия', '[]');
-INSERT INTO categories (id, parentId, label, items) VALUES ('4', '3', 'круги', '[]');
-INSERT INTO categories (id, parentId, label, items) VALUES ('5', '3', 'квадраты', '[]');
-INSERT INTO categories (id, parentId, label, items) VALUES ('6', '0', 'Физика', '[]');
-INSERT INTO categories (id, parentId, label, items) VALUES ('8', '0', 'Химия', '[]');
-INSERT INTO categories (id, parentId, label, items) VALUES ('7', '6', 'phisics topic 3001 srv', '[]');
+INSERT INTO categories (id, parentId, label) VALUES ('1', '0', 'Матeматика');
+INSERT INTO categories (id, parentId, label) VALUES ('2', '1', 'алгебра');
+INSERT INTO categories (id, parentId, label) VALUES ('3', '1', 'rеометрия');
+INSERT INTO categories (id, parentId, label) VALUES ('4', '3', 'круги');
+INSERT INTO categories (id, parentId, label) VALUES ('5', '3', 'квадраты');
+INSERT INTO categories (id, parentId, label) VALUES ('6', '0', 'Физика');
+INSERT INTO categories (id, parentId, label) VALUES ('8', '0', 'Химия');
+INSERT INTO categories (id, parentId, label) VALUES ('7', '6', 'phisics topic 3001 srv');
 
 --Заполняем тестовыми данными таблицу materials
-INSERT INTO materials (id, parentId, label, content) VALUES ('1', '4', 'круги материал 123432', 'Контент материала по теме круги материал 123432');
-INSERT INTO materials (id, parentId, label, content) VALUES ('2', '5', 'квадраты материал 222', 'Контент материала по теме квадраты материал 222');
+INSERT INTO materials (id, parentId, label, content) VALUES ('111', '4', 'круги материал 123432', 'Контент материала по теме круги материал 123432');
+INSERT INTO materials (id, parentId, label, content) VALUES ('112', '5', 'квадраты материал 222', 'Контент материала по теме квадраты материал 222');
 
 -- tasks table
-INSERT INTO tasks (id, parentId, label, content) VALUES ('10', '6', 'задача физика 222', 'Контент материала по теме физика задача 222');
-INSERT INTO tasks (id, parentId, label, content) VALUES ('11', '6', 'задача физика 333222', 'Контент материала по теме физика задача 333222');
+INSERT INTO tasks (id, parentId, label, content) VALUES ('210', '6', 'задача физика 222', 'Контент материала по теме физика задача 222');
+INSERT INTO tasks (id, parentId, label, content) VALUES ('211', '6', 'задача физика 333222', 'Контент материала по теме физика задача 333222');
+
+-- Создаем таблицы пользователей и заполняем тестовыми данными
+DROP TABLE users;
+CREATE TABLE users (
+    id varchar(255),
+    name varchar(255),
+    email varchar(255),
+    isadmin boolean NOT NULL,
+    password varchar(255)
+);
+INSERT INTO users (id, name, email, isAdmin, password) VALUES ('001', 'admin', 'admin@admin.com', true, '111');
+INSERT INTO users (id, name, email, isAdmin, password) VALUES ('002', 'user', 'user@user.com', false, '111');
