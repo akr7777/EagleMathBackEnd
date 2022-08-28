@@ -23,6 +23,7 @@ class DescriptionController {
             await client.end();
         } catch (e) {
             console.log('!!!!!DescriptionController / getDescription / erorr=!!!!', e)
+
         }
     }
 
