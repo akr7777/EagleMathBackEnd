@@ -4,6 +4,7 @@ export const router = new Router();
 const usersController = require('./../controllers/users.controller');
 
 router.post('/login', usersController.login);
+router.get('/getuser', usersController.getUser);
 //router.get('/getAllCategories', tasksController.getAllCategories);
 
 module.exports = router;

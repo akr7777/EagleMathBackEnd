@@ -27,6 +27,10 @@ class UsersController {
         res.status(200).json(credentials.rows);
         await client.end();
     }
+
+    async getUser (req: any, res: any) {
+        res.json({id: 0, name: 'sfd'});
+    }
 }
 
 module.exports = new UsersController();
