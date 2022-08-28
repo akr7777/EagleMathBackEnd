@@ -34,7 +34,7 @@ class UsersController {
                     response.id = credentials.rows[0].id;
                     response.name = credentials.rows[0].name;
                     response.email = credentials.rows[0].email;
-                    response.isAdmin = credentials.rows[0].isAdmin;
+                    response.isAdmin = credentials.rows[0].isadmin;
                     //console.log('UsersController / credentials = ', credentials)
                 }
                 res.status(200).json(response);
