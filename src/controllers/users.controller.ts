@@ -8,7 +8,7 @@ class UsersController {
         console.log('EMAIL=', email, 'PASSWORD=', password)
 
         try {
-            const SQL = 'SELECT * FROM USERS WHERE email="";'
+            const SQL = `SELECT * FROM USERS WHERE email=${email} AND password=${password};`
             let client = new pg.Client(process.env.DATABASE_URL);
             await client.connect();
             const credentials = await client.query(SQL);
