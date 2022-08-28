@@ -16,9 +16,9 @@ const pg_1 = __importDefault(require("pg"));
 class UsersController {
     login(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log('UsersController / req=', req.query);
+            //console.log('UsersController / req=', req.query)
             const { email, password } = req.query;
-            console.log('EMAIL=', email, 'PASSWORD=', password);
+            //console.log('EMAIL=', email, 'PASSWORD=', password)
             try {
                 const SQL = `SELECT * FROM USERS WHERE email='${email}' AND password='${password}';`;
                 let client = new pg_1.default.Client(process.env.DATABASE_URL);
@@ -31,17 +31,17 @@ class UsersController {
                     isAdmin: false
                 };
                 if (credentials.rows.length === 1) {
-                    /*response.id = credentials[0].id;
-                    response.name = credentials[0].name;
-                    response.email = credentials[0].email;
-                    response.isAdmin = credentials[0].isAdmin;*/
-                    console.log('UsersController / credentials = ', credentials);
+                    response.id = credentials.rows[0].id;
+                    response.name = credentials.rows[0].name;
+                    response.email = credentials.rows[0].email;
+                    response.isAdmin = credentials.rows[0].isAdmin;
+                    //console.log('UsersController / credentials = ', credentials)
                 }
-                res.status(200).json(credentials.rows);
+                res.status(200).json(response);
                 yield client.end();
             }
             catch (e) {
-                console.log('!!!!!erorr=!!!!', e);
+                console.log('!!!!!UsersController / login / erorr=!!!!', e);
             }
         });
     }
