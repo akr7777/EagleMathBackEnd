@@ -3,9 +3,9 @@ import pg from 'pg';
 class UsersController {
     async login (req: any, res: any) {
 
-        console.log('UsersController / req=', req)
-        const email = req;
-        const password = req;
+        console.log('UsersController / req=', req.query)
+        const {email, password} = req.query;
+        console.log('EMAIL=', email, 'PASSWORD=', password)
 
         try {
             const SQL = 'SELECT * FROM USERS WHERE email="";'

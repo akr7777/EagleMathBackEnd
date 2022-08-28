@@ -16,9 +16,9 @@ const pg_1 = __importDefault(require("pg"));
 class UsersController {
     login(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log('UsersController / req=', req);
-            const email = req;
-            const password = req;
+            console.log('UsersController / req=', req.query);
+            const { email, password } = req.query;
+            console.log('EMAIL=', email, 'PASSWORD=', password);
             try {
                 const SQL = 'SELECT * FROM USERS WHERE email="";';
                 let client = new pg_1.default.Client(process.env.DATABASE_URL);
