@@ -16,9 +16,9 @@ const pg_1 = __importDefault(require("pg"));
 class UsersController {
     login(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log('!!!UsersController / req=', req);
-            console.log('!!!!!!UsersController / req.data=', req.data);
-            const { email, password } = req.query;
+            //console.log('!!!UsersController / req=', req)
+            console.log('!!!!!!UsersController / req.body=', req.body);
+            const { email, password } = req.body;
             //console.log('EMAIL=', email, 'PASSWORD=', password)
             try {
                 const SQL = `SELECT * FROM USERS WHERE email='${email}' AND password='${password}';`;
