@@ -8,6 +8,7 @@ const express_1 = __importDefault(require("express"));
 const materialsRouter = require('./rotes/materials.routes');
 const tasksRouter = require('./rotes/tasks.routes');
 const categoriesRouter = require('./rotes/categories.routes');
+const usersRouter = require('./rotes/users.routes');
 const app = (0, express_1.default)();
 const port = process.env.PORT || 3001;
 const cors = require('cors');
@@ -22,6 +23,7 @@ app.get('/', cors(), (req, res, next) => {
 app.use('/materials', materialsRouter);
 app.use('/tasks', tasksRouter);
 app.use('/categories', categoriesRouter);
+app.use('/users', usersRouter);
 app.listen(port, () => {
     console.log(`server started on port ${port}`);
 });

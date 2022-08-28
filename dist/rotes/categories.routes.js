@@ -5,6 +5,4 @@ const Router = require("express");
 exports.router = new Router();
 const categoriesController = require('./../controllers/categories.controller');
 exports.router.get('/getAllCategories', categoriesController.getAllCategories);
-//router.get('/getAllCategories', tasksController.getAllCategories);
-//hg
 module.exports = exports.router;

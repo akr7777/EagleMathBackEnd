@@ -6,7 +6,7 @@ class UsersController {
         const email = req;
         const password = req;
 
-        const SQL = 'SELECT * FROM USERS WHERE email=;'
+        const SQL = 'SELECT * FROM USERS WHERE email="";'
         let client = new pg.Client(process.env.DATABASE_URL);
         await client.connect();
         const credentials = await client.query(SQL);
@@ -29,6 +29,7 @@ class UsersController {
     }
 
     async getUser (req: any, res: any) {
+        console.log('UsersController / getUser');
         res.json({id: 0, name: 'sfd'});
     }
 }
