@@ -20,7 +20,7 @@ class UsersController {
             const { email, password } = req.query;
             console.log('EMAIL=', email, 'PASSWORD=', password);
             try {
-                const SQL = `SELECT * FROM USERS WHERE email=${email} AND password=${password};`;
+                const SQL = `SELECT * FROM USERS WHERE email='${email}' AND password='${password}';`;
                 let client = new pg_1.default.Client(process.env.DATABASE_URL);
                 yield client.connect();
                 const credentials = yield client.query(SQL);
