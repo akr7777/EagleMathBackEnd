@@ -64,3 +64,4 @@ CREATE TABLE description (
     description varchar
 );
 INSERT INTO description (title, photo, description) VALUES ('this is descripton80245', 'https://otkritkis.com/wp-content/uploads/2022/01/ce76ac7389415a8594cd4a35cfa80d1c.jpg', 'description text str1 \n str2 \n str3');
+UPDATE description SET title='111', photo='222', description='333';
