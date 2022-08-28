@@ -4,6 +4,7 @@ const materialsRouter = require('./rotes/materials.routes');
 const tasksRouter = require('./rotes/tasks.routes');
 const categoriesRouter = require('./rotes/categories.routes');
 const usersRouter = require('./rotes/users.routes');
+const descriptionRouter = require('./rotes/description.routes');
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -23,6 +24,7 @@ app.use('/materials', materialsRouter);
 app.use('/tasks', tasksRouter);
 app.use('/categories', categoriesRouter);
 app.use('/users', usersRouter);
+app.use('/description', descriptionRouter);
 
 app.listen(port, () => {
     console.log(`server started on port ${port}`)
