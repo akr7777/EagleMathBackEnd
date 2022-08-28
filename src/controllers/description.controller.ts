@@ -3,10 +3,14 @@ import pg from 'pg';
 class DescriptionController {
     async getDescription (req: any, res: any) {
         try {
+            console.log('DescriptionController / getDescription')
             const SQL = `SELECT * FROM description;`
             let client = new pg.Client(process.env.DATABASE_URL);
             await client.connect();
             const dbData = await client.query(SQL);
+
+            console.log('DescriptionController / getDescription / dbData=', dbData)
+
 
             if (dbData.rows.length === 1) {
                 const response = {
