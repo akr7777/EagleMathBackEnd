@@ -56,7 +56,7 @@ CREATE TABLE users (
 INSERT INTO users (id, name, email, isAdmin, photo, password) VALUES ('001', 'admin', 'admin@admin.com', true, 'https://img-fotki.yandex.ru/get/9319/137106206.3c1/0_d3c43_a256f12d_orig.jpg', '111');
 INSERT INTO users (id, name, email, isAdmin, photo, password) VALUES ('002', 'user', 'user@user.com', false, 'https://sun9-66.userapi.com/impf/c631327/v631327124/408fb/eaoqCnHgE9Y.jpg?size=500x333&quality=96&proxy=1&sign=768119c80964830c65b8cc826fe7c8f8&type=album', '111');
 
--- Создаем таблицы описание и заполняем тестовыми данными
+-- Создаем таблицы описание и заполняем тестовыми данными.
 DROP TABLE description;
 CREATE TABLE description (
     title varchar(255),
