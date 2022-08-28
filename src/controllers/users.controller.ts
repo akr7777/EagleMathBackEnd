@@ -2,8 +2,9 @@ import pg from 'pg';
 
 class UsersController {
     async login (req: any, res: any) {
-        //console.log('!!!UsersController / req=', req)
+        console.log('!!!UsersController / req=', req)
         console.log('!!!!!!UsersController / req.body=', req.body)
+        console.log('!!!!!!UsersController / req.payload=', req.payload)
         const {email, password} = req.body;
         //console.log('EMAIL=', email, 'PASSWORD=', password)
 
