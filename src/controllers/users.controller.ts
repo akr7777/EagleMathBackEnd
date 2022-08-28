@@ -2,32 +2,33 @@ import pg from 'pg';
 
 class UsersController {
     async login (req: any, res: any) {
-        console.log('!!!UsersController / req=', req)
+        //console.log('!!!UsersController / req=', req)
         console.log('!!!!!!UsersController / req.body=', req.body)
-        console.log('!!!!!!UsersController / req.payload=', req.payload)
+        //console.log('!!!!!!UsersController / req.payload=', req.payload)
         const {email, password} = req.body;
-        //console.log('EMAIL=', email, 'PASSWORD=', password)
+        console.log('EMAIL=', email, 'PASSWORD=', password)
 
         try {
             const SQL = `SELECT * FROM USERS WHERE email='${email}' AND password='${password}';`
             let client = new pg.Client(process.env.DATABASE_URL);
             await client.connect();
-            const credentials = await client.query(SQL);
+            const dbData = await client.query(SQL);
 
-            const response = {
-                id: '',
-                name: '',
-                email: '',
-                isAdmin: false
+
+            if (dbData.rows.length === 1) {
+                const response = {
+                    id: dbData.rows[0].id,
+                    name: dbData.rows[0].name,
+                    email: dbData.rows[0].email,
+                    isAdmin: dbData.rows[0].isadmin,
+                    photo: dbData.rows[0].photo,
+                    resultCode: 0,
+                }
+                res.status(200).json(response);
+            } else {
+                res.status(400).json({resultCode: 1});
             }
-            if (credentials.rows.length === 1) {
-                response.id = credentials.rows[0].id;
-                response.name = credentials.rows[0].name;
-                response.email = credentials.rows[0].email;
-                response.isAdmin = credentials.rows[0].isadmin;
-                //console.log('UsersController / credentials = ', credentials)
-            }
-            res.status(200).json(response);
+
             await client.end();
         } catch (e) {
             console.log('!!!!!UsersController / login / erorr=!!!!', e)
