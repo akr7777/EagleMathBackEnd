@@ -2,18 +2,13 @@ import pg from 'pg';
 
 class UsersController {
     async login (req: any, res: any) {
-        //console.log('!!!UsersController / req=', req)
-        console.log('!!!!!!UsersController / req.body=', req.body)
-        //console.log('!!!!!!UsersController / req.payload=', req.payload)
         const {email, password} = req.body;
-        console.log('EMAIL=', email, 'PASSWORD=', password)
 
         try {
             const SQL = `SELECT * FROM USERS WHERE email='${email}' AND password='${password}';`
             let client = new pg.Client(process.env.DATABASE_URL);
             await client.connect();
             const dbData = await client.query(SQL);
-
 
             if (dbData.rows.length === 1) {
                 const response = {
