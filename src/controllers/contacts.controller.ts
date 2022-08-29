@@ -2,6 +2,7 @@ import pg from 'pg';
 
 class ContactsController {
     async getContacts(req: any, res: any) {
+        console.log('ContactsController, getContacts, begin')
         try {
             const SQL = `SELECT * FROM contacts;`
             let client = new pg.Client(process.env.DATABASE_URL);

@@ -16,6 +16,7 @@ const pg_1 = __importDefault(require("pg"));
 class ContactsController {
     getContacts(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
+            console.log('ContactsController, getContacts, begin');
             try {
                 const SQL = `SELECT * FROM contacts;`;
                 let client = new pg_1.default.Client(process.env.DATABASE_URL);
