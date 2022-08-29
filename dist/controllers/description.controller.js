@@ -17,12 +17,12 @@ class DescriptionController {
     getDescription(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                console.log('DescriptionController / getDescription');
+                //console.log('DescriptionController / getDescription')
                 const SQL = `SELECT * FROM description;`;
                 let client = new pg_1.default.Client(process.env.DATABASE_URL);
                 yield client.connect();
                 const dbData = yield client.query(SQL);
-                console.log('DescriptionController / getDescription / dbData=', dbData);
+                //console.log('DescriptionController / getDescription / dbData=', dbData)
                 if (dbData.rows.length === 1) {
                     const response = {
                         title: dbData.rows[0].title,
@@ -52,14 +52,15 @@ class DescriptionController {
                 yield client.connect();
                 const dbData = yield client.query(SQL);
                 console.log('dbData=', dbData);
-                if (dbData.rows.length === 1) {
-                    const response = {
-                        title: dbData.rows[0].title,
-                        photo: dbData.rows[0].photo,
-                        description: dbData.rows[0].description,
-                        resultCode: 0,
-                    };
-                    res.status(200).json(response);
+                if (dbData.rows) {
+                    /* const response = {
+                         title: dbData.rows[0].title,
+                         photo: dbData.rows[0].photo,
+                         description: dbData.rows[0].description,
+                         resultCode: 0,
+                     }*/
+                    //res.status(200).json(response);
+                    res.status(200).json({ resultCode: 0 });
                 }
                 else {
                     res.status(400).json({ resultCode: 2 });
