@@ -16,7 +16,6 @@ const pg_1 = __importDefault(require("pg"));
 class ContactsController {
     getContacts(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log('ContactsController, getContacts, begin');
             try {
                 const SQL = `SELECT * FROM contacts;`;
                 let client = new pg_1.default.Client(process.env.DATABASE_URL);
@@ -47,16 +46,13 @@ class ContactsController {
     }
     setContacts(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log('ContactsController, SetContacts, begin');
             const { title, description, phone, telegram, whatsapp, email, skype } = req.body;
             const SQL = `UPDATE contacts SET title='${title}', description='${description}', phone='${phone}', telegram='${telegram}',
                     whatsapp='${whatsapp}', email='${email}', skype='${skype}';`;
-            console.log('ContactsController, SetContacts, SQL=', SQL);
             try {
                 let client = new pg_1.default.Client(process.env.DATABASE_URL);
                 yield client.connect();
                 const dbData = yield client.query(SQL);
-                console.log('ContactsController / SetContacts / dbData=', dbData);
                 if (dbData.rowCount) {
                     const response = {
                         title: title,
@@ -68,7 +64,6 @@ class ContactsController {
                         skype: skype,
                         resultCode: 0,
                     };
-                    //res.status(200).json(response);
                     res.status(200).json(response);
                 }
                 else {

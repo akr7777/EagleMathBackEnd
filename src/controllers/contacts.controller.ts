@@ -2,7 +2,6 @@ import pg from 'pg';
 
 class ContactsController {
     async getContacts(req: any, res: any) {
-        console.log('ContactsController, getContacts, begin')
         try {
             const SQL = `SELECT * FROM contacts;`
             let client = new pg.Client(process.env.DATABASE_URL);
@@ -33,19 +32,15 @@ class ContactsController {
     }
 
     async setContacts(req: any, res: any) {
-        console.log('ContactsController, SetContacts, begin')
-
         const {title, description, phone, telegram, whatsapp, email, skype} = req.body;
         const SQL = `UPDATE contacts SET title='${title}', description='${description}', phone='${phone}', telegram='${telegram}',
                     whatsapp='${whatsapp}', email='${email}', skype='${skype}';`
-        console.log('ContactsController, SetContacts, SQL=', SQL)
 
         try {
             let client = new pg.Client(process.env.DATABASE_URL);
             await client.connect();
             const dbData = await client.query(SQL);
 
-            console.log('ContactsController / SetContacts / dbData=', dbData)
             if (dbData.rowCount) {
                 const response = {
                     title: title,
@@ -57,7 +52,6 @@ class ContactsController {
                     skype: skype,
                     resultCode: 0,
                 }
-                //res.status(200).json(response);
                 res.status(200).json(response);
             } else {
                 res.status(400).json({resultCode: 2});
