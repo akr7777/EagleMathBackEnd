@@ -3,7 +3,7 @@ export const router = new Router();
 
 const contactsController = require('./../controllers/contacts.controller');
 
-router.post('/getContacts', contactsController.getContacts);
-router.get('/setContacts', contactsController.setContacts);
+router.get('/getContacts', contactsController.getContacts);
+router.post('/setContacts', contactsController.setContacts);
 
 module.exports = router;
