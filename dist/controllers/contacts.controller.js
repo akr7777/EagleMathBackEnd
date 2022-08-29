@@ -47,6 +47,7 @@ class ContactsController {
     }
     setContacts(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
+            console.log('ContactsController, SetContacts, begin');
             const { title, description, phone, telegram, whatsapp, email, skype } = req.body;
             const SQL = `UPDATE contacts SET title='${title}', description='${description}', phone='${phone}', telegram='${telegram}',
                     whatsapp='${whatsapp}', email='${email}', skype='${skype}';`;
@@ -75,7 +76,7 @@ class ContactsController {
                 yield client.end();
             }
             catch (e) {
-                console.log('!!!!!DescriptionController / setDescription / erorr=!!!!', e);
+                console.log('!!!!!ContactsController / setContacts / erorr=!!!!', e);
             }
         });
     }

@@ -33,6 +33,8 @@ class ContactsController {
     }
 
     async setContacts(req: any, res: any) {
+        console.log('ContactsController, SetContacts, begin')
+
         const {title, description, phone, telegram, whatsapp, email, skype} = req.body;
         const SQL = `UPDATE contacts SET title='${title}', description='${description}', phone='${phone}', telegram='${telegram}',
                     whatsapp='${whatsapp}', email='${email}', skype='${skype}';`
@@ -62,7 +64,7 @@ class ContactsController {
 
             await client.end();
         } catch (e) {
-            console.log('!!!!!DescriptionController / setDescription / erorr=!!!!', e)
+            console.log('!!!!!ContactsController / setContacts / erorr=!!!!', e)
 
         }
     }
