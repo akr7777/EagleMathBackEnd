@@ -35,8 +35,6 @@ class DescriptionController {
         const {title, photo, description} = req.body;
         const SQL = `UPDATE description SET title='${title}', photo='${photo}', description='${description}';`
 
-        //console.log('setDescription, SQL =', SQL);
-
         try {
             let client = new pg.Client(process.env.DATABASE_URL);
             await client.connect();

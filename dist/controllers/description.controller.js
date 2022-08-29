@@ -46,21 +46,20 @@ class DescriptionController {
         return __awaiter(this, void 0, void 0, function* () {
             const { title, photo, description } = req.body;
             const SQL = `UPDATE description SET title='${title}', photo='${photo}', description='${description}';`;
-            console.log('setDescription, SQL =', SQL);
             try {
                 let client = new pg_1.default.Client(process.env.DATABASE_URL);
                 yield client.connect();
                 const dbData = yield client.query(SQL);
-                console.log('dbData=', dbData);
-                if (dbData.rows) {
-                    /* const response = {
-                         title: dbData.rows[0].title,
-                         photo: dbData.rows[0].photo,
-                         description: dbData.rows[0].description,
-                         resultCode: 0,
-                     }*/
+                console.log('dbData.rowCount=', dbData.rowCount);
+                if (dbData.rowCount) {
+                    const response = {
+                        title: title,
+                        photo: photo,
+                        description: description,
+                        resultCode: 0,
+                    };
                     //res.status(200).json(response);
-                    res.status(200).json({ resultCode: 0 });
+                    res.status(200).json(response);
                 }
                 else {
                     res.status(400).json({ resultCode: 2 });
