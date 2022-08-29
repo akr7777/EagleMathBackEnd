@@ -38,13 +38,14 @@ class ContactsController {
         const {title, description, phone, telegram, whatsapp, email, skype} = req.body;
         const SQL = `UPDATE contacts SET title='${title}', description='${description}', phone='${phone}', telegram='${telegram}',
                     whatsapp='${whatsapp}', email='${email}', skype='${skype}';`
+        console.log('ContactsController, SetContacts, SQL=', SQL)
 
         try {
             let client = new pg.Client(process.env.DATABASE_URL);
             await client.connect();
             const dbData = await client.query(SQL);
 
-            //console.log('dbData.rowCount=', dbData.rowCount)
+            console.log('ContactsController / SetContacts / dbData=', dbData)
             if (dbData.rowCount) {
                 const response = {
                     title: title,
