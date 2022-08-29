@@ -65,3 +65,18 @@ CREATE TABLE description (
 );
 INSERT INTO description (title, photo, description) VALUES ('this is descripton80245', 'https://otkritkis.com/wp-content/uploads/2022/01/ce76ac7389415a8594cd4a35cfa80d1c.jpg', 'description text str1 \n str2 \n str3');
 UPDATE description SET title='111', photo='222', description='333';
+
+-- Создаем таблицы описание и заполняем тестовыми данными.
+DROP TABLE contacts;
+CREATE TABLE contacts (
+    title varchar(255),
+    description varchar,
+    phone varchar(255),
+    telegram varchar(255),
+    whatsapp varchar(255),
+    email varchar(255),
+    skype varchar(255)
+);
+INSERT INTO contacts (title, description, phone, telegram, whatsapp, email, skype)
+VALUES ('Title', 'description', '89991234567', 'tg', 'wa', 'email', 'skype');
+UPDATE description SET title='111', photo='222', description='333';

@@ -5,7 +5,7 @@ const tasksRouter = require('./rotes/tasks.routes');
 const categoriesRouter = require('./rotes/categories.routes');
 const usersRouter = require('./rotes/users.routes');
 const descriptionRouter = require('./rotes/description.routes');
-//const descriptionRouter = require('./rotes/description.routes');
+const contactsRouter = require('./rotes/contacts.routes');
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -26,6 +26,7 @@ app.use('/tasks', tasksRouter);
 app.use('/categories', categoriesRouter);
 app.use('/users', usersRouter);
 app.use('/description', descriptionRouter);
+app.use('/contacts', contactsRouter);
 
 app.listen(port, () => {
     console.log(`server started on port ${port}`)
