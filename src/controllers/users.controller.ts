@@ -101,8 +101,9 @@ class UsersController {
             let client = new pg.Client(process.env.DATABASE_URL);
             await client.connect();
             const dbData = await client.query(SQL);
+            console.log('!!!DBDATA.rows =', dbData.rows);
             if (dbData.rows.length === 1) {
-                console.log('!!!DBDATA.rows =', dbData.rows)
+
                 res.send(dbData.rows[0].photo)
                 //res.status(200).json({resultCode: 0});
             } else {
