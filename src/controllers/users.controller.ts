@@ -111,7 +111,7 @@ class UsersController {
                 checkDirExist('/app/dist')//dist/controllers/src/public/uploads/002.avatar.jpeg
                 checkDirExist('/app/dist/controllers')
                 checkDirExist('/app/dist/controllers/src')
-                fs.readdirSync('/app/dist/controllers')
+                console.log('/app/dist/controllers СОДЕРЖТ:', fs.readdirSync('/app/dist/controllers'));
                 //res.status(200).sendFile(fullDir);
             } else {
                 res.status(400).json({resultCode: 1});
