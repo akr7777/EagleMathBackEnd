@@ -14,22 +14,21 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const pg_1 = __importDefault(require("pg"));
 const fs = require('fs');
-const path = require('path');
-const checkFileExist = (path) => {
+//const path = require('path');
+const pathToUploadsDir = './src/public/uploads/';
+/*const checkFileExist = (path: string) => {
     try {
         if (fs.existsSync(path)) {
             return true;
-        }
-        else
+        } else
             return false;
-    }
-    catch (err) {
+    } catch(err) {
         console.error('checkFileExist:::::', err);
         return false;
     }
-};
-const checkDirExist = (path) => {
-    fs.stat(path, function (err) {
+}*/
+/*const checkDirExist = (path: string) => {
+    fs.stat(path, function(err:any) {
         if (!err) {
             console.log('Директория есть', path);
         }
@@ -37,7 +36,7 @@ const checkDirExist = (path) => {
             console.log('директории нет', path);
         }
     });
-};
+}*/
 class UsersController {
     login(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -92,7 +91,9 @@ class UsersController {
                     checkDirExist('./public');
                     checkDirExist('public/uploads');
                     checkDirExist('./public/uploads');*/
-                    yield file.mv('./src/public/uploads/' + id + '.avatar.' + fileExt);
+                    yield file.mv(pathToUploadsDir + id + '.avatar.' + fileExt);
+                    console.log('55555:', fs.readdirSync('./src/public/uploads'));
+                    console.log('666666:', fs.readdirSync(pathToUploadsDir));
                 }
                 catch (e) {
                     console.log('FILE!!! e= ', e);

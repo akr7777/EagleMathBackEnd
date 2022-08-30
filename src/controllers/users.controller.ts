@@ -1,8 +1,9 @@
 import pg from 'pg';
 const fs = require('fs');
-const path = require('path');
+//const path = require('path');
+const pathToUploadsDir = './src/public/uploads/';
 
-const checkFileExist = (path: string) => {
+/*const checkFileExist = (path: string) => {
     try {
         if (fs.existsSync(path)) {
             return true;
@@ -12,9 +13,8 @@ const checkFileExist = (path: string) => {
         console.error('checkFileExist:::::', err);
         return false;
     }
-}
-
-const checkDirExist = (path: string) => {
+}*/
+/*const checkDirExist = (path: string) => {
     fs.stat(path, function(err:any) {
         if (!err) {
             console.log('Директория есть', path);
@@ -23,7 +23,7 @@ const checkDirExist = (path: string) => {
             console.log('директории нет', path);
         }
     });
-}
+}*/
 
 
 class UsersController {
@@ -78,7 +78,9 @@ class UsersController {
                 checkDirExist('./public');
                 checkDirExist('public/uploads');
                 checkDirExist('./public/uploads');*/
-                await file.mv('./src/public/uploads/' + id + '.avatar.' + fileExt);
+                await file.mv(pathToUploadsDir + id + '.avatar.' + fileExt);
+                console.log('55555:', fs.readdirSync('./src/public/uploads'));
+                console.log('666666:', fs.readdirSync(pathToUploadsDir));
             } catch (e) {
                 console.log('FILE!!! e= ',e)
             }
