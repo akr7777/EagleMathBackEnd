@@ -1,5 +1,6 @@
 import pg from 'pg';
 const fs = require('fs');
+const path = require('path');
 
 const checkFileExist = (path: string) => {
     try {
@@ -68,10 +69,12 @@ class UsersController {
             const fileExt = file.name.split('.')[file.name.split('.').length-1];
             console.log('avatarUpload file=', file);
             try {
-                checkDirExist('public');
+                console.log('111111:', fs.readdirSync('./'));
+                console.log('222222:', fs.readdirSync(''));
+                /*checkDirExist('public');
                 checkDirExist('./public');
                 checkDirExist('public/uploads');
-                checkDirExist('./public/uploads');
+                checkDirExist('./public/uploads');*/
                 await file.mv('./public/uploads/' + id + '.avatar.' + fileExt);
             } catch (e) {
                 console.log('FILE!!! e= ',e)

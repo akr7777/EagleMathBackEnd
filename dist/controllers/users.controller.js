@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const pg_1 = __importDefault(require("pg"));
 const fs = require('fs');
+const path = require('path');
 const checkFileExist = (path) => {
     try {
         if (fs.existsSync(path)) {
@@ -82,10 +83,12 @@ class UsersController {
                 const fileExt = file.name.split('.')[file.name.split('.').length - 1];
                 console.log('avatarUpload file=', file);
                 try {
-                    checkDirExist('public');
+                    console.log('111111:', fs.readdirSync('./'));
+                    console.log('222222:', fs.readdirSync(''));
+                    /*checkDirExist('public');
                     checkDirExist('./public');
                     checkDirExist('public/uploads');
-                    checkDirExist('./public/uploads');
+                    checkDirExist('./public/uploads');*/
                     yield file.mv('./public/uploads/' + id + '.avatar.' + fileExt);
                 }
                 catch (e) {
