@@ -54,7 +54,7 @@ class UsersController {
             //console.log('userController / avatarUpload, req=', req)
             const {id} = req.body; //body={ file={} id='002'}
             const file = req.files.file;
-            const fileExt = file.name.split('.')[file.name.length - 1];
+            const fileExt = file.name.split('.')[file.name.split('.').length-1];
             console.log('avatarUpload file.name=', file.name, 'split=', file.name.split('.'), 'file.name.split(.)[0]=', file.name.split('.')[0], 'feliExt=', fileExt)
             file.mv('./public/uploads/' + id + '_' + 'avatar' + fileExt);
             //const path = './file.txt';
