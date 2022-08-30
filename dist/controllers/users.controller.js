@@ -13,6 +13,20 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const pg_1 = __importDefault(require("pg"));
+const fs = require('fs');
+const checkFileExist = (path) => {
+    try {
+        if (fs.existsSync(path)) {
+            return true;
+        }
+        else
+            return false;
+    }
+    catch (err) {
+        console.error(err);
+        return false;
+    }
+};
 class UsersController {
     login(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -53,12 +67,15 @@ class UsersController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 console.log('userController / avatarUpload, req=', req);
-                //req.files.photo.mv('public/uploads/'+req.files.photo.name);
                 const { id } = req.body; //body={ file={} id='002'}
                 const file = req.files.file;
+                const fileExt = file.name.split('.')[file.name.length - 1];
+                file.mv('public/uploads/' + id + '_' + 'avatar' + fileExt);
+                //const path = './file.txt';
+                console.log('IS NEW FILE EXIST? ', checkFileExist('public/uploads/' + id + '_' + 'avatar' + fileExt));
                 //res.end(req.files.photo.name);
                 //console.log(req.files.photo); // the uploaded file object
-                console.log('userController / avatarUpload, file=', file, 'id=', id);
+                //console.log('userController / avatarUpload, file=', file, 'id=', id);
                 res.json({ resultCode: 0 });
             }
             catch (e) {
