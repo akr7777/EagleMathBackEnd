@@ -39,7 +39,8 @@ class UsersController {
         try {
             console.log('userController / avatarUpload, req=', req)
             //req.files.photo.mv('public/uploads/'+req.files.photo.name);
-            const {file, id} = req.body; //body={ file={} id='002'}
+            const {id } = req.body; //body={ file={} id='002'}
+            const file = req.files.file;
             //res.end(req.files.photo.name);
             //console.log(req.files.photo); // the uploaded file object
             console.log('userController / avatarUpload, file=', file, 'id=', id);
