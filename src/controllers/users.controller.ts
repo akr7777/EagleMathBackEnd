@@ -13,6 +13,17 @@ const checkFileExist = (path: string) => {
     }
 }
 
+const checkDirExist = (path: string) => {
+    fs.stat(path, function(err:any) {
+        if (!err) {
+            console.log('Директория есть', path);
+        }
+        else if (err.code === 'ENOENT') {
+            console.log('директории нет', path);
+        }
+    });
+}
+
 
 class UsersController {
     async login(req: any, res: any) {
@@ -57,6 +68,10 @@ class UsersController {
             const fileExt = file.name.split('.')[file.name.split('.').length-1];
             console.log('avatarUpload file=', file);
             try {
+                checkDirExist('public');
+                checkDirExist('./public');
+                checkDirExist('public/uploads');
+                checkDirExist('./public/uploads');
                 await file.mv('./public/uploads/' + id + '.avatar.' + fileExt);
             } catch (e) {
                 console.log('FILE!!! e= ',e)
