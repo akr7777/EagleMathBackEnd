@@ -109,5 +109,28 @@ class UsersController {
             }
         });
     }
+    getAvatar(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { id } = req.body;
+            try {
+                const SQL = `SELECT photo FROM users WHERE id='${id}';`;
+                let client = new pg_1.default.Client(process.env.DATABASE_URL);
+                yield client.connect();
+                const dbData = yield client.query(SQL);
+                if (dbData.rows.length === 1) {
+                    console.log('!!!DBDATA.rows =', dbData.rows);
+                    res.send(dbData.rows[0].photo);
+                    //res.status(200).json({resultCode: 0});
+                }
+                else {
+                    res.status(400).json({ resultCode: 1 });
+                }
+                yield client.end();
+            }
+            catch (e) {
+                console.log('!!!!!UsersController / avatarUpload Dbase / erorr=!!!!', e);
+            }
+        });
+    }
 }
 module.exports = new UsersController();

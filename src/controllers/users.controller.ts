@@ -94,15 +94,25 @@ class UsersController {
             console.log('!!!usersController, avatarUpload, error = ', e)
         }
     }
-/*
     async getAvatar(req: any, res: any) {
         const {id} = req.body;
         try {
-            const fileAva = './public/uploads/'+id+'.avatar.jpeg';
+            const SQL = `SELECT photo FROM users WHERE id='${id}';`
+            let client = new pg.Client(process.env.DATABASE_URL);
+            await client.connect();
+            const dbData = await client.query(SQL);
+            if (dbData.rows.length === 1) {
+                console.log('!!!DBDATA.rows =', dbData.rows)
+                res.send(dbData.rows[0].photo)
+                //res.status(200).json({resultCode: 0});
+            } else {
+                res.status(400).json({resultCode: 1});
+            }
+            await client.end();
         } catch (e) {
-            console.log('!!!getAvatar / e=', e)
+            console.log('!!!!!UsersController / avatarUpload Dbase / erorr=!!!!', e)
         }
-    }*/
+    }
 }
 
 module.exports = new UsersController();
