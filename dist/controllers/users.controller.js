@@ -23,7 +23,7 @@ const checkFileExist = (path) => {
             return false;
     }
     catch (err) {
-        console.error(err);
+        console.error('checkFileExist:::::', err);
         return false;
     }
 };
@@ -66,13 +66,13 @@ class UsersController {
     avatarUpload(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                console.log('userController / avatarUpload, req=', req);
+                //console.log('userController / avatarUpload, req=', req)
                 const { id } = req.body; //body={ file={} id='002'}
                 const file = req.files.file;
                 const fileExt = file.name.split('.')[file.name.length - 1];
-                file.mv('public/uploads/' + id + '_' + 'avatar' + fileExt);
+                file.mv('./public/uploads/' + id + '_' + 'avatar' + fileExt);
                 //const path = './file.txt';
-                console.log('IS NEW FILE EXIST? ', checkFileExist('public/uploads/' + id + '_' + 'avatar' + fileExt));
+                console.log('IS NEW FILE EXIST? ', checkFileExist('./public/uploads/' + id + '_' + 'avatar' + fileExt));
                 //res.end(req.files.photo.name);
                 //console.log(req.files.photo); // the uploaded file object
                 //console.log('userController / avatarUpload, file=', file, 'id=', id);
