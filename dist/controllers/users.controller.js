@@ -129,7 +129,8 @@ class UsersController {
                     checkDirExist('/app/dist'); //dist/controllers/src/public/uploads/002.avatar.jpeg
                     checkDirExist('/app/dist/controllers');
                     checkDirExist('/app/dist/controllers/src');
-                    console.log('/app/dist/controllers СОДЕРЖТ:', fs.readdirSync('/app/dist/controllers'));
+                    console.log('/app/dist/ СОДЕРЖТ:', fs.readdirSync('/app/dist/'));
+                    console.log('/app/ СОДЕРЖТ:', fs.readdirSync('/app/'));
                     //res.status(200).sendFile(fullDir);
                 }
                 else {
