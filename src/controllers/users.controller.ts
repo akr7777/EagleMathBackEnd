@@ -115,6 +115,7 @@ class UsersController {
                 console.log('/app/dist/ СОДЕРЖТ:', fs.readdirSync('/app/dist/'));
                 console.log('/app/ СОДЕРЖТ:', fs.readdirSync('/app/'));
                 console.log(pathToFolder+'/src/public/uploads', ' СОДЕРЖТ:', fs.readdirSync(pathToFolder+'/src/public/uploads'));
+                console.log('fullDir:', checkFileExist(fullDir));
                 //res.status(200).sendFile(fullDir);
             } else {
                 res.status(400).json({resultCode: 1});
