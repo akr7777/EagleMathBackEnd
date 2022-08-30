@@ -49,5 +49,13 @@ class UsersController {
             res.json({ id: 0, name: 'sfd' });
         });
     }
+    avatarUpload(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            console.log('userController / avatarUpload, req=', req);
+            req.files.photo.mv('public/uploads/' + req.files.photo.name);
+            res.end(req.files.photo.name);
+            console.log(req.files.photo); // the uploaded file object
+        });
+    }
 }
 module.exports = new UsersController();

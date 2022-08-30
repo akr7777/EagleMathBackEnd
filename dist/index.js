@@ -5,6 +5,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 //const express = require('express');
 const express_1 = __importDefault(require("express"));
+const fileUpload = require('express-fileupload');
 const materialsRouter = require('./rotes/materials.routes');
 const tasksRouter = require('./rotes/tasks.routes');
 const categoriesRouter = require('./rotes/categories.routes');
@@ -17,6 +18,8 @@ const cors = require('cors');
 app.use(cors());
 const jsonBodyMiddleware = express_1.default.json();
 app.use(jsonBodyMiddleware);
+app.use(fileUpload({}));
+app.use(express_1.default.static('src/public'));
 /*const Router = require("express");
 export const router = new Router();*/
 app.get('/', cors(), (req, res, next) => {

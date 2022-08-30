@@ -6,4 +6,5 @@ exports.router = new Router();
 const usersController = require('./../controllers/users.controller');
 exports.router.post('/login', usersController.login);
 exports.router.get('/getuser', usersController.getUser);
+exports.router.post('/uploadAvatar', usersController.avatarUpload);
 module.exports = exports.router;
