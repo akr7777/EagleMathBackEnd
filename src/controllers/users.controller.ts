@@ -37,10 +37,13 @@ class UsersController {
 
     async avatarUpload (req: any, res: any) {
         try {
-            console.log('userController / avatarUpload, req=', req)
-            req.files.photo.mv('public/uploads/'+req.files.photo.name);
-            res.end(req.files.photo.name);
-            console.log(req.files.photo); // the uploaded file object
+            //console.log('userController / avatarUpload, req=', req)
+            //req.files.photo.mv('public/uploads/'+req.files.photo.name);
+            const {file, id} = req.body;
+            //res.end(req.files.photo.name);
+            //console.log(req.files.photo); // the uploaded file object
+            console.log('userController / avatarUpload, file=', file, 'id=', id)
+
         } catch (e) {
             console.log('!!!usersController, avatarUpload, error = ', e)
         }
