@@ -120,7 +120,7 @@ class UsersController {
                 let client = new pg_1.default.Client(process.env.DATABASE_URL);
                 yield client.connect();
                 const dbData = yield client.query(SQL);
-                console.log('!!!SQL=', SQL, 'DBDATA.rows =', dbData.rows, 'req.query=', req.query);
+                //console.log('!!!SQL=', SQL,'DBDATA.rows =', dbData.rows, 'req.query=', req.query);
                 if (dbData.rows.length === 1) {
                     const photo = dbData.rows[0].photo;
                     //console.log("!!!!PHOTO=", photo);
