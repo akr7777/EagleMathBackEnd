@@ -16,19 +16,21 @@ const pg_1 = __importDefault(require("pg"));
 const fs = require('fs');
 const path = require('path');
 const pathToUploadsDir = './src/public/uploads/';
-/*const checkFileExist = (path: string) => {
+const checkFileExist = (path) => {
     try {
         if (fs.existsSync(path)) {
             return true;
-        } else
+        }
+        else
             return false;
-    } catch(err) {
+    }
+    catch (err) {
         console.error('checkFileExist:::::', err);
         return false;
     }
-}*/
-/*const checkDirExist = (path: string) => {
-    fs.stat(path, function(err:any) {
+};
+const checkDirExist = (path) => {
+    fs.stat(path, function (err) {
         if (!err) {
             console.log('Директория есть', path);
         }
@@ -36,7 +38,7 @@ const pathToUploadsDir = './src/public/uploads/';
             console.log('директории нет', path);
         }
     });
-}*/
+};
 class UsersController {
     login(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -123,9 +125,11 @@ class UsersController {
                     console.log("!!!!PHOTO=", photo);
                     const fullDir = path.join(__dirname, photo);
                     console.log('!!!!!FULL DIR=', fullDir);
-                    res.status(200).sendFile(fullDir);
-                    //res.send(dbData.rows[0].photo)
-                    //res.status(200).json({resultCode: 0});
+                    console.log('1111111', checkDirExist('/app'));
+                    console.log('2222', checkDirExist('/app/dist')); //dist/controllers/src/public/uploads/002.avatar.jpeg
+                    console.log('333', checkDirExist('/app/dist/controllers')); //src/public/uploads/002.avatar.jpeg
+                    console.log('444', checkDirExist('/app/dist/controllers/src')); //src/public/uploads/002.avatar.jpeg
+                    //res.status(200).sendFile(fullDir);
                 }
                 else {
                     res.status(400).json({ resultCode: 1 });
