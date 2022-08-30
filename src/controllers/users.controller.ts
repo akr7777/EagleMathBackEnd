@@ -1,6 +1,6 @@
 import pg from 'pg';
 const fs = require('fs');
-//const path = require('path');
+const path = require('path');
 const pathToUploadsDir = './src/public/uploads/';
 
 /*const checkFileExist = (path: string) => {
@@ -105,7 +105,9 @@ class UsersController {
             if (dbData.rows.length === 1) {
                 const photo = dbData.rows[0].photo;
                 console.log("!!!!PHOTO=", photo);
-                res.status(200).sendFile(photo);
+                const fullDir = path.join(__dirname, photo);
+                console.log('!!!!!FULL DIR=', fullDir);
+                res.status(200).sendFile(fullDir);
                 //res.send(dbData.rows[0].photo)
                 //res.status(200).json({resultCode: 0});
             } else {
