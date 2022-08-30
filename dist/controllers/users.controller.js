@@ -70,10 +70,10 @@ class UsersController {
                 const { id } = req.body; //body={ file={} id='002'}
                 const file = req.files.file;
                 const fileExt = file.name.split('.')[file.name.length - 1];
-                console.log('avatarUpload file.name=', file.name, 'split=', file.name.split('.'), 'feliExt=', fileExt);
+                console.log('avatarUpload file.name=', file.name, 'split=', file.name.split('.'), 'file.name.split(.)[0]=', file.name.split('.')[0], 'feliExt=', fileExt);
                 file.mv('./public/uploads/' + id + '_' + 'avatar' + fileExt);
                 //const path = './file.txt';
-                console.log('IavatarUpload: S NEW FILE EXIST? ', checkFileExist('./public/uploads/' + id + '_' + 'avatar' + fileExt));
+                console.log('avatarUpload: IS NEW FILE EXIST? ', checkFileExist('./public/uploads/' + id + '_' + 'avatar' + fileExt));
                 //res.end(req.files.photo.name);
                 //console.log(req.files.photo); // the uploaded file object
                 //console.log('userController / avatarUpload, file=', file, 'id=', id);
