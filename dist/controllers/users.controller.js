@@ -58,6 +58,7 @@ class UsersController {
                 //res.end(req.files.photo.name);
                 //console.log(req.files.photo); // the uploaded file object
                 console.log('userController / avatarUpload, file=', file, 'id=', id);
+                res.json({ resultCode: 0 });
             }
             catch (e) {
                 console.log('!!!usersController, avatarUpload, error = ', e);
