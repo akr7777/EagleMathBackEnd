@@ -123,18 +123,18 @@ class UsersController {
                 console.log('!!!SQL=', SQL, 'DBDATA.rows =', dbData.rows, 'req.query=', req.query);
                 if (dbData.rows.length === 1) {
                     const photo = dbData.rows[0].photo;
-                    console.log("!!!!PHOTO=", photo);
+                    //console.log("!!!!PHOTO=", photo);
                     const fullDir = path.join(pathToFolder, photo);
-                    console.log('!!!!!FULL DIR=', fullDir);
-                    checkDirExist('/app');
-                    checkDirExist('/app/dist'); //dist/controllers/src/public/uploads/002.avatar.jpeg
-                    checkDirExist('/app/dist/controllers');
-                    checkDirExist('/app/dist/controllers/src');
+                    /*console.log('!!!!!FULL DIR=', fullDir);
+                    checkDirExist('/app')
+                    checkDirExist('/app/dist')//dist/controllers/src/public/uploads/002.avatar.jpeg
+                    checkDirExist('/app/dist/controllers')
+                    checkDirExist('/app/dist/controllers/src')
                     console.log('/app/dist/ СОДЕРЖТ:', fs.readdirSync('/app/dist/'));
                     console.log('/app/ СОДЕРЖТ:', fs.readdirSync('/app/'));
-                    console.log(pathToFolder + '/src/public/uploads', ' СОДЕРЖТ:', fs.readdirSync(pathToFolder + '/src/public/uploads'));
-                    console.log('fullDir:', checkFileExist(fullDir));
-                    //res.status(200).sendFile(fullDir);
+                    console.log(pathToFolder+'/src/public/uploads', ' СОДЕРЖТ:', fs.readdirSync(pathToFolder+'/src/public/uploads'));
+                    console.log('fullDir:', checkFileExist(fullDir));*/
+                    res.status(200).sendFile(fullDir);
                 }
                 else {
                     res.status(400).json({ resultCode: 1 });
