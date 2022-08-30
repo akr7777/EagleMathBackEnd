@@ -36,10 +36,14 @@ class UsersController {
     }
 
     async avatarUpload (req: any, res: any) {
-        console.log('userController / avatarUpload, req.files=', req.files)
-        req.files.photo.mv('public/uploads/'+req.files.photo.name);
-        res.end(req.files.photo.name);
-        console.log(req.files.photo); // the uploaded file object
+        try {
+            console.log('userController / avatarUpload, req=', req)
+            req.files.photo.mv('public/uploads/'+req.files.photo.name);
+            res.end(req.files.photo.name);
+            console.log(req.files.photo); // the uploaded file object
+        } catch (e) {
+            console.log('!!!usersController, avatarUpload, error = ', e)
+        }
     }
 }
 
