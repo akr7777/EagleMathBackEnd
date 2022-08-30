@@ -119,7 +119,10 @@ class UsersController {
                 const dbData = yield client.query(SQL);
                 console.log('!!!SQL=', SQL, 'DBDATA.rows =', dbData.rows, 'req.body=', req.body);
                 if (dbData.rows.length === 1) {
-                    res.send(dbData.rows[0].photo);
+                    const photo = dbData.rows[0].photo;
+                    console.log("!!!!PHOTO=", photo);
+                    res.status(200).sendFile(photo);
+                    //res.send(dbData.rows[0].photo)
                     //res.status(200).json({resultCode: 0});
                 }
                 else {
