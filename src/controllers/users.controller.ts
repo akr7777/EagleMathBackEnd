@@ -55,8 +55,8 @@ class UsersController {
             const {id} = req.body; //body={ file={} id='002'}
             const file = req.files.file;
             const fileExt = file.name.split('.')[file.name.split('.').length-1];
-            //console.log('avatarUpload file.name=', file.name, 'split=', file.name.split('.'), 'file.name.split(.)[0]=', file.name.split('.')[0], 'feliExt=', fileExt)
-            file.mv('./public/uploads/' + id + '.avatar.' + fileExt);
+            console.log('avatarUpload file=', file)
+            await file.mv('./public/uploads/' + id + '.avatar.' + fileExt);
             //const path = './file.txt';
             //console.log('avatarUpload: IS NEW FILE EXIST? ', checkFileExist('./public/uploads/' + id + '.' + 'avatar.' + fileExt))
             //res.end(req.files.photo.name);
@@ -68,7 +68,7 @@ class UsersController {
             console.log('!!!usersController, avatarUpload, error = ', e)
         }
     }
-
+/*
     async getAvatar(req: any, res: any) {
         const {id} = req.body;
         try {
@@ -76,7 +76,7 @@ class UsersController {
         } catch (e) {
             console.log('!!!getAvatar / e=', e)
         }
-    }
+    }*/
 }
 
 module.exports = new UsersController();

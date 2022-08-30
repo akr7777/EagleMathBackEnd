@@ -70,8 +70,8 @@ class UsersController {
                 const { id } = req.body; //body={ file={} id='002'}
                 const file = req.files.file;
                 const fileExt = file.name.split('.')[file.name.split('.').length - 1];
-                //console.log('avatarUpload file.name=', file.name, 'split=', file.name.split('.'), 'file.name.split(.)[0]=', file.name.split('.')[0], 'feliExt=', fileExt)
-                file.mv('./public/uploads/' + id + '.avatar.' + fileExt);
+                console.log('avatarUpload file=', file);
+                yield file.mv('./public/uploads/' + id + '.avatar.' + fileExt);
                 //const path = './file.txt';
                 //console.log('avatarUpload: IS NEW FILE EXIST? ', checkFileExist('./public/uploads/' + id + '.' + 'avatar.' + fileExt))
                 //res.end(req.files.photo.name);
@@ -81,17 +81,6 @@ class UsersController {
             }
             catch (e) {
                 console.log('!!!usersController, avatarUpload, error = ', e);
-            }
-        });
-    }
-    getAvatar(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const { id } = req.body;
-            try {
-                const fileAva = './public/uploads/' + id + '.avatar.jpeg';
-            }
-            catch (e) {
-                console.log('!!!getAvatar / e=', e);
             }
         });
     }
