@@ -2,6 +2,7 @@ import pg from 'pg';
 const fs = require('fs');
 const path = require('path');
 const pathToUploadsDir = './src/public/uploads/';
+const pathToFolder = '/app'
 
 const checkFileExist = (path: string) => {
     try {
@@ -105,7 +106,7 @@ class UsersController {
             if (dbData.rows.length === 1) {
                 const photo = dbData.rows[0].photo;
                 console.log("!!!!PHOTO=", photo);
-                const fullDir = path.join(__dirname, photo);
+                const fullDir = path.join(pathToFolder, photo);
                 console.log('!!!!!FULL DIR=', fullDir);
                 checkDirExist('/app')
                 checkDirExist('/app/dist')//dist/controllers/src/public/uploads/002.avatar.jpeg
@@ -113,6 +114,7 @@ class UsersController {
                 checkDirExist('/app/dist/controllers/src')
                 console.log('/app/dist/ СОДЕРЖТ:', fs.readdirSync('/app/dist/'));
                 console.log('/app/ СОДЕРЖТ:', fs.readdirSync('/app/'));
+                console.log(pathToFolder+'/src/public/uploads', ' СОДЕРЖТ:', fs.readdirSync(pathToFolder+'/src/public/uploads'));
                 //res.status(200).sendFile(fullDir);
             } else {
                 res.status(400).json({resultCode: 1});
