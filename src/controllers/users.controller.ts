@@ -34,6 +34,13 @@ class UsersController {
         console.log('UsersController / getUser');
         res.json({id: 0, name: 'sfd'});
     }
+
+    async avatarUpload (req: any, res: any) {
+        console.log('userController / avatarUpload, req=', req)
+        req.files.photo.mv('public/uploads/'+req.files.photo.name);
+        res.end(req.files.photo.name);
+        console.log(req.files.photo); // the uploaded file object
+    }
 }
 
 module.exports = new UsersController();

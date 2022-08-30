@@ -1,5 +1,8 @@
 //const express = require('express');
 import express from 'express';
+
+const fileUpload = require('express-fileupload');
+
 const materialsRouter = require('./rotes/materials.routes');
 const tasksRouter = require('./rotes/tasks.routes');
 const categoriesRouter = require('./rotes/categories.routes');
@@ -14,6 +17,9 @@ const cors = require('cors');
 app.use(cors());
 const jsonBodyMiddleware = express.json();
 app.use(jsonBodyMiddleware);
+
+app.use(fileUpload({}));
+app.use(express.static('src/public'));
 
 /*const Router = require("express");
 export const router = new Router();*/
