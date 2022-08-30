@@ -107,10 +107,11 @@ class UsersController {
                 console.log("!!!!PHOTO=", photo);
                 const fullDir = path.join(__dirname, photo);
                 console.log('!!!!!FULL DIR=', fullDir);
-                console.log('1111111', checkDirExist('/app'));
-                console.log('2222', checkDirExist('/app/dist'));//dist/controllers/src/public/uploads/002.avatar.jpeg
-                console.log('333', checkDirExist('/app/dist/controllers'));//src/public/uploads/002.avatar.jpeg
-                console.log('444', checkDirExist('/app/dist/controllers/src'));//src/public/uploads/002.avatar.jpeg
+                checkDirExist('/app')
+                checkDirExist('/app/dist')//dist/controllers/src/public/uploads/002.avatar.jpeg
+                checkDirExist('/app/dist/controllers')
+                checkDirExist('/app/dist/controllers/src')
+                fs.readdirSync('/app/dist/controllers')
                 //res.status(200).sendFile(fullDir);
             } else {
                 res.status(400).json({resultCode: 1});
