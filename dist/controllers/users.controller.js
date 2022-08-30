@@ -76,34 +76,33 @@ class UsersController {
     avatarUpload(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                //console.log('userController / avatarUpload, req=', req)
-                const { id } = req.body; //body={ file={} id='002'}
+                const { id } = req.body;
                 const file = req.files.file;
                 const fileExt = file.name.split('.')[file.name.split('.').length - 1];
-                console.log('avatarUpload file=', file);
+                const avaLocation = pathToUploadsDir + id + '.avatar.' + fileExt;
                 try {
-                    console.log('111111:', fs.readdirSync('./'));
-                    console.log('22222:', fs.readdirSync('./src'));
-                    console.log('33333:', fs.readdirSync('./src/public'));
-                    console.log('44444:', fs.readdirSync('./src/public/uploads'));
-                    //console.log('222222:', fs.readdirSync(''));
-                    /*checkDirExist('public');
-                    checkDirExist('./public');
-                    checkDirExist('public/uploads');
-                    checkDirExist('./public/uploads');*/
-                    yield file.mv(pathToUploadsDir + id + '.avatar.' + fileExt);
-                    console.log('55555:', fs.readdirSync('./src/public/uploads'));
-                    console.log('666666:', fs.readdirSync(pathToUploadsDir));
+                    yield file.mv(avaLocation);
                 }
                 catch (e) {
                     console.log('FILE!!! e= ', e);
                 }
-                //const path = './file.txt';
-                //console.log('avatarUpload: IS NEW FILE EXIST? ', checkFileExist('./public/uploads/' + id + '.' + 'avatar.' + fileExt))
-                //res.end(req.files.photo.name);
-                //console.log(req.files.photo); // the uploaded file object
-                //console.log('userController / avatarUpload, file=', file, 'id=', id);
-                res.json({ resultCode: 0 });
+                try {
+                    const SQL = `UPDATE users SET photo='${avaLocation}' WHERE id='${id}';`;
+                    let client = new pg_1.default.Client(process.env.DATABASE_URL);
+                    yield client.connect();
+                    const dbData = yield client.query(SQL);
+                    if (dbData.rows.length === 1) {
+                        res.status(200).json({ resultCode: 0 });
+                    }
+                    else {
+                        res.status(400).json({ resultCode: 1 });
+                    }
+                    yield client.end();
+                }
+                catch (e) {
+                    console.log('!!!!!UsersController / avatarUpload Dbase / erorr=!!!!', e);
+                }
+                //res.json({resultCode: 0});
             }
             catch (e) {
                 console.log('!!!usersController, avatarUpload, error = ', e);
