@@ -70,12 +70,15 @@ class UsersController {
             console.log('avatarUpload file=', file);
             try {
                 console.log('111111:', fs.readdirSync('./'));
-                console.log('222222:', fs.readdirSync(''));
+                console.log('22222:', fs.readdirSync('./src'));
+                console.log('33333:', fs.readdirSync('./src/public'));
+                console.log('44444:', fs.readdirSync('./src/public/uploads'));
+                //console.log('222222:', fs.readdirSync(''));
                 /*checkDirExist('public');
                 checkDirExist('./public');
                 checkDirExist('public/uploads');
                 checkDirExist('./public/uploads');*/
-                await file.mv('./public/uploads/' + id + '.avatar.' + fileExt);
+                await file.mv('./src/public/uploads/' + id + '.avatar.' + fileExt);
             } catch (e) {
                 console.log('FILE!!! e= ',e)
             }
