@@ -131,9 +131,11 @@ class UsersController {
             const {id, newEmail} = req.body;
             try {
                 const SQL = `UPDATE users SET email='${newEmail}' WHERE id='${id}';`
+                console.log('updateEmail, SQL=', SQL)
                 let client = new pg.Client(process.env.DATABASE_URL);
                 await client.connect();
                 const dbData = await client.query(SQL);
+                console.log('updateEmail, dbData=', dbData)
                 if (dbData.rows.length === 1) {
                     res.status(200).json({newEmail: newEmail, resultCode: 0});
                 } else {
