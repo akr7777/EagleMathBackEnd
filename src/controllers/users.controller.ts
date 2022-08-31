@@ -153,6 +153,7 @@ class UsersController {
     async updatePassword(req: any, res: any) {
         try {
             const {id, oldPass, newPass} = req.body;
+            console.log('id, oldPass, newPass =', id, oldPass, newPass)
             try {
                 const oldPassSQL = `SELECT password FROM users WHERE id='${id}';`
                 const updatePassSQL = `UPDATE users SET password='${newPass}' WHERE id='${id}';`
@@ -164,7 +165,7 @@ class UsersController {
                 console.log('oldPassFromDB.rows[0].password !== oldPass::::', oldPassFromDB.rows[0].password !== oldPass)
 
                 if (oldPassFromDB.rows[0].password !== oldPass)
-                    res.status(200).json({resultCode: 10});
+                    res.status(200).json({resultCode: 10}); //старый пароль введен НЕверно
                 else {
                     const dbData = await client.query(updatePassSQL);
                     if (dbData.rowCount === 1) {
