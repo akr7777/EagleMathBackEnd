@@ -159,6 +159,10 @@ class UsersController {
                 let client = new pg.Client(process.env.DATABASE_URL);
                 await client.connect();
                 const oldPassFromDB = await client.query(oldPassSQL);
+
+                console.log('oldPassFromDB.rows[0]=', oldPassFromDB.rows[0], 'oldPassFromDB.rows[0].password=',oldPassFromDB.rows[0].password)
+                console.log('oldPassFromDB.rows[0].password !== oldPass::::', oldPassFromDB.rows[0].password !== oldPass)
+
                 if (oldPassFromDB.rows[0].password !== oldPass)
                     res.status(200).json({resultCode: 10});
                 else {
