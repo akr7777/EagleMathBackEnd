@@ -152,12 +152,16 @@ class UsersController {
 
     async updatePassword(req: any, res: any) {
         try {
-            const {id, newPass} = req.body;
+            const {id, oldPass, newPass} = req.body;
             try {
-                const SQL = `UPDATE users SET password='${newPass}' WHERE id='${id}';`
+                const oldPassSQL = `SELECT password FROM users WHERE id='${id}';`
+                const updatePassSQL = `UPDATE users SET password='${newPass}' WHERE id='${id}';`
                 let client = new pg.Client(process.env.DATABASE_URL);
                 await client.connect();
-                const dbData = await client.query(SQL);
+                const oldPassFromDB = await client.query(oldPassSQL);
+                if (oldPassFromDB.rows[0].password !== oldPass)
+                    res.status(200).json({resultCode: 10});
+                const dbData = await client.query(updatePassSQL);
                 if (dbData.rowCount === 1) {
                     //console.log('{newEmail: newEmail, resultCode: 0}===', {newEmail: newEmail, resultCode: 0})
                     res.status(200).json({resultCode: 0});

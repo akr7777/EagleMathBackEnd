@@ -180,12 +180,16 @@ class UsersController {
     updatePassword(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const { id, newPass } = req.body;
+                const { id, oldPass, newPass } = req.body;
                 try {
-                    const SQL = `UPDATE users SET password='${newPass}' WHERE id='${id}';`;
+                    const oldPassSQL = `SELECT password FROM users WHERE id='${id}';`;
+                    const updatePassSQL = `UPDATE users SET password='${newPass}' WHERE id='${id}';`;
                     let client = new pg_1.default.Client(process.env.DATABASE_URL);
                     yield client.connect();
-                    const dbData = yield client.query(SQL);
+                    const oldPassFromDB = yield client.query(oldPassSQL);
+                    if (oldPassFromDB.rows[0].password !== oldPass)
+                        res.status(200).json({ resultCode: 10 });
+                    const dbData = yield client.query(updatePassSQL);
                     if (dbData.rowCount === 1) {
                         //console.log('{newEmail: newEmail, resultCode: 0}===', {newEmail: newEmail, resultCode: 0})
                         res.status(200).json({ resultCode: 0 });
