@@ -14,7 +14,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const pg_1 = __importDefault(require("pg"));
 const path_1 = __importDefault(require("path"));
-const users_controller_1 = require("./users.controller");
+const pathToUploadsDir = './src/public/uploads/';
+const pathToFolder = '/app';
 class DescriptionController {
     getDescription(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -83,11 +84,11 @@ class DescriptionController {
                 console.log('DescrController / getDescriptionPhoto /dbData=', dbData);
                 if (dbData.rows.length === 1) {
                     const photo = dbData.rows[0].photo;
-                    const fullDir = path_1.default.join(users_controller_1.pathToFolder, photo);
+                    const fullDir = path_1.default.join(pathToFolder, photo);
                     res.status(200).sendFile(fullDir);
                 }
                 else {
-                    const standartPhoto = path_1.default.join(users_controller_1.pathToFolder, users_controller_1.pathToUploadsDir);
+                    const standartPhoto = path_1.default.join(pathToFolder, pathToUploadsDir);
                     console.log('DESCR / getDescriptionPhoto / standartPhoto=', standartPhoto);
                     res.status(200).sendFile(standartPhoto);
                 }
@@ -103,7 +104,7 @@ class DescriptionController {
             try {
                 const file = req.files.file;
                 const fileExt = file.name.split('.')[file.name.split('.').length - 1];
-                const descriptionPhotoLocation = path_1.default.join(users_controller_1.pathToUploadsDir, 'descriptionPhoto.' + fileExt);
+                const descriptionPhotoLocation = path_1.default.join(pathToUploadsDir, 'descriptionPhoto.' + fileExt);
                 console.log('descrController / setDescriptionPhoto/ descriptionPhotoLocation=', descriptionPhotoLocation);
                 try {
                     yield file.mv(descriptionPhotoLocation);

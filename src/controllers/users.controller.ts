@@ -1,8 +1,8 @@
 import pg from 'pg';
 const fs = require('fs');
 const path = require('path');
-export const pathToUploadsDir = './src/public/uploads/';
-export const pathToFolder = '/app'
+const pathToUploadsDir = './src/public/uploads/';
+const pathToFolder = '/app';
 
 const checkFileExist = (path: string) => {
     try {

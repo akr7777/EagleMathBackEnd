@@ -1,6 +1,7 @@
 import pg from 'pg';
 import path from "path";
-import {pathToFolder, pathToUploadsDir} from "./users.controller";
+const pathToUploadsDir = './src/public/uploads/';
+const pathToFolder = '/app';
 
 class DescriptionController {
     async getDescription(req: any, res: any) {
