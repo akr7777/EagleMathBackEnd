@@ -92,7 +92,7 @@ class UsersController {
             console.log('!!!usersController, avatarUpload, error = ', e)
         }
     }
-    /*async getAvatar(req: any, res: any) {
+    async getAvatar(req: any, res: any) {
         const {id} = req.query;
         try {
             const SQL = `SELECT photo FROM users WHERE id='${id}';`
@@ -104,7 +104,7 @@ class UsersController {
                 const photo = dbData.rows[0].photo;
                 //console.log("!!!!PHOTO=", photo);
                 const fullDir = path.join(pathToFolder, photo);
-                /!*console.log('!!!!!FULL DIR=', fullDir);
+                /*console.log('!!!!!FULL DIR=', fullDir);
                 checkDirExist('/app')
                 checkDirExist('/app/dist')//dist/controllers/src/public/uploads/002.avatar.jpeg
                 checkDirExist('/app/dist/controllers')
@@ -112,7 +112,7 @@ class UsersController {
                 console.log('/app/dist/ СОДЕРЖТ:', fs.readdirSync('/app/dist/'));
                 console.log('/app/ СОДЕРЖТ:', fs.readdirSync('/app/'));
                 console.log(pathToFolder+'/src/public/uploads', ' СОДЕРЖТ:', fs.readdirSync(pathToFolder+'/src/public/uploads'));
-                console.log('fullDir:', checkFileExist(fullDir));*!/
+                console.log('fullDir:', checkFileExist(fullDir));*/
                 res.status(200).sendFile(fullDir);
             } else {
                 const standartPhotoAvatar = path.join(pathToFolder, pathToUploadsDir);
@@ -124,7 +124,7 @@ class UsersController {
         } catch (e) {
             console.log('!!!!!UsersController / avatarUpload Dbase / erorr=!!!!', e)
         }
-    }*/
+    }
 
     async updateEmail(req: any, res: any) {
         try {
