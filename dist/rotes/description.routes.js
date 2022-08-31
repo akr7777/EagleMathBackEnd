@@ -6,4 +6,6 @@ exports.router = new Router();
 const descriptionController = require('./../controllers/description.controller');
 exports.router.post('/setDescription', descriptionController.setDescription);
 exports.router.get('/getDescription', descriptionController.getDescription);
+exports.router.get('/getDescriptionPhoto', descriptionController.getDescriptionPhoto);
+exports.router.post('/setDescriptionPhoto', descriptionController.setDescriptionPhoto);
 module.exports = exports.router;

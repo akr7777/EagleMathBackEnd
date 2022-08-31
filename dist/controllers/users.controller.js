@@ -12,11 +12,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.pathToFolder = exports.pathToUploadsDir = void 0;
 const pg_1 = __importDefault(require("pg"));
 const fs = require('fs');
 const path = require('path');
-const pathToUploadsDir = './src/public/uploads/';
-const pathToFolder = '/app';
+exports.pathToUploadsDir = './src/public/uploads/';
+exports.pathToFolder = '/app';
 const checkFileExist = (path) => {
     try {
         if (fs.existsSync(path)) {
@@ -61,7 +62,7 @@ class UsersController {
                     res.status(200).json(response);
                 }
                 else {
-                    res.status(400).json({ resultCode: 1 });
+                    //res.status(400).json({resultCode: 1});
                 }
                 yield client.end();
             }
@@ -82,7 +83,7 @@ class UsersController {
                 const { id } = req.body;
                 const file = req.files.file;
                 const fileExt = file.name.split('.')[file.name.split('.').length - 1];
-                const avaLocation = pathToUploadsDir + id + '.avatar.' + fileExt;
+                const avaLocation = exports.pathToUploadsDir + id + '.avatar.' + fileExt;
                 try {
                     yield file.mv(avaLocation);
                 }
@@ -124,7 +125,7 @@ class UsersController {
                 if (dbData.rows.length === 1) {
                     const photo = dbData.rows[0].photo;
                     //console.log("!!!!PHOTO=", photo);
-                    const fullDir = path.join(pathToFolder, photo);
+                    const fullDir = path.join(exports.pathToFolder, photo);
                     /*console.log('!!!!!FULL DIR=', fullDir);
                     checkDirExist('/app')
                     checkDirExist('/app/dist')//dist/controllers/src/public/uploads/002.avatar.jpeg
@@ -137,7 +138,10 @@ class UsersController {
                     res.status(200).sendFile(fullDir);
                 }
                 else {
-                    res.status(400).json({ resultCode: 1 });
+                    const standartPhotoAvatar = path.join(exports.pathToFolder, exports.pathToUploadsDir);
+                    console.log('USERS / getAvatar / standartPhotoAvatar=', standartPhotoAvatar);
+                    res.status(200).sendFile(standartPhotoAvatar);
+                    //res.status(400).json({resultCode: 1});
                 }
                 yield client.end();
             }

@@ -1,8 +1,8 @@
 import pg from 'pg';
 const fs = require('fs');
 const path = require('path');
-const pathToUploadsDir = './src/public/uploads/';
-const pathToFolder = '/app'
+export const pathToUploadsDir = './src/public/uploads/';
+export const pathToFolder = '/app'
 
 const checkFileExist = (path: string) => {
     try {
@@ -48,7 +48,7 @@ class UsersController {
                 }
                 res.status(200).json(response);
             } else {
-                res.status(400).json({resultCode: 1});
+                //res.status(400).json({resultCode: 1});
             }
 
             await client.end();
@@ -118,7 +118,10 @@ class UsersController {
                 console.log('fullDir:', checkFileExist(fullDir));*/
                 res.status(200).sendFile(fullDir);
             } else {
-                res.status(400).json({resultCode: 1});
+                const standartPhotoAvatar = path.join(pathToFolder, pathToUploadsDir);
+                console.log('USERS / getAvatar / standartPhotoAvatar=', standartPhotoAvatar);
+                res.status(200).sendFile(standartPhotoAvatar);
+                //res.status(400).json({resultCode: 1});
             }
             await client.end();
         } catch (e) {
