@@ -42,7 +42,7 @@ class DescriptionController {
             await client.connect();
             const dbData = await client.query(SQL);
 
-            console.log('dbData.rowCount=', dbData.rowCount)
+            console.log('setDescription / dbData.rowCount=', dbData.rowCount)
             if (dbData.rowCount) {
                const response = {
                     title: title,
@@ -75,13 +75,13 @@ class DescriptionController {
                 const fullDir = path.join(pathToFolder, photo);
                 res.status(200).sendFile(fullDir);
             } else {
-                const standartPhotoAvatar = path.join(pathToFolder, pathToUploadsDir);
-                console.log('USERS / getAvatar / standartPhotoAvatar=', standartPhotoAvatar);
-                res.status(200).sendFile(standartPhotoAvatar);
+                const standartPhoto = path.join(pathToFolder, pathToUploadsDir);
+                console.log('DESCR / getDescriptionPhoto / standartPhoto=', standartPhoto);
+                res.status(200).sendFile(standartPhoto);
             }
             await client.end();
         } catch (e) {
-            console.log('!!!!!UsersController / avatarUpload Dbase / erorr=!!!!', e)
+            console.log('!!!!!Descr Controller / getDescriptionPhoto Dbase / erorr=!!!!', e)
         }
     }
 

@@ -52,7 +52,7 @@ class DescriptionController {
                 let client = new pg_1.default.Client(process.env.DATABASE_URL);
                 yield client.connect();
                 const dbData = yield client.query(SQL);
-                console.log('dbData.rowCount=', dbData.rowCount);
+                console.log('setDescription / dbData.rowCount=', dbData.rowCount);
                 if (dbData.rowCount) {
                     const response = {
                         title: title,
@@ -87,14 +87,14 @@ class DescriptionController {
                     res.status(200).sendFile(fullDir);
                 }
                 else {
-                    const standartPhotoAvatar = path_1.default.join(users_controller_1.pathToFolder, users_controller_1.pathToUploadsDir);
-                    console.log('USERS / getAvatar / standartPhotoAvatar=', standartPhotoAvatar);
-                    res.status(200).sendFile(standartPhotoAvatar);
+                    const standartPhoto = path_1.default.join(users_controller_1.pathToFolder, users_controller_1.pathToUploadsDir);
+                    console.log('DESCR / getDescriptionPhoto / standartPhoto=', standartPhoto);
+                    res.status(200).sendFile(standartPhoto);
                 }
                 yield client.end();
             }
             catch (e) {
-                console.log('!!!!!UsersController / avatarUpload Dbase / erorr=!!!!', e);
+                console.log('!!!!!Descr Controller / getDescriptionPhoto Dbase / erorr=!!!!', e);
             }
         });
     }
