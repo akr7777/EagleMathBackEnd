@@ -7,6 +7,6 @@ const usersController = require('./../controllers/users.controller');
 exports.router.post('/login', usersController.login);
 exports.router.get('/getuser', usersController.getUser);
 exports.router.post('/uploadAvatar', usersController.avatarUpload);
-exports.router.get('/getAvatar', usersController.getAvatar);
+//router.get('/getAvatar', usersController.getAvatar);
 exports.router.get('updateEmail', usersController.updateEmail);
 module.exports = exports.router;
