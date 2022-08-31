@@ -161,12 +161,14 @@ class UsersController {
                 const oldPassFromDB = await client.query(oldPassSQL);
                 if (oldPassFromDB.rows[0].password !== oldPass)
                     res.status(200).json({resultCode: 10});
-                const dbData = await client.query(updatePassSQL);
-                if (dbData.rowCount === 1) {
-                    //console.log('{newEmail: newEmail, resultCode: 0}===', {newEmail: newEmail, resultCode: 0})
-                    res.status(200).json({resultCode: 0});
-                } else {
-                    res.status(459).json({resultCode: 1});
+                else {
+                    const dbData = await client.query(updatePassSQL);
+                    if (dbData.rowCount === 1) {
+                        //console.log('{newEmail: newEmail, resultCode: 0}===', {newEmail: newEmail, resultCode: 0})
+                        res.status(200).json({resultCode: 0});
+                    } else {
+                        res.status(459).json({resultCode: 1});
+                    }
                 }
                 await client.end();
             } catch (e) {
