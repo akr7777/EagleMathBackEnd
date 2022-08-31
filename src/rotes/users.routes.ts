@@ -8,5 +8,6 @@ router.get('/getuser', usersController.getUser);
 router.post('/uploadAvatar', usersController.avatarUpload);
 router.get('/getAvatar', usersController.getAvatar);
 router.post('/updateEmail', usersController.updateEmail);
+router.post('/updatePassword', usersController.updatePassword);
 
 module.exports = router;

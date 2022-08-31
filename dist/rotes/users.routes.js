@@ -9,4 +9,5 @@ exports.router.get('/getuser', usersController.getUser);
 exports.router.post('/uploadAvatar', usersController.avatarUpload);
 exports.router.get('/getAvatar', usersController.getAvatar);
 exports.router.post('/updateEmail', usersController.updateEmail);
+exports.router.post('/updatePassword', usersController.updatePassword);
 module.exports = exports.router;

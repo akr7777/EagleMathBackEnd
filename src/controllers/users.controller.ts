@@ -131,15 +131,36 @@ class UsersController {
             const {id, newEmail} = req.body;
             try {
                 const SQL = `UPDATE users SET email='${newEmail}' WHERE id='${id}';`
-                console.log('updateEmail, SQL=', SQL)
                 let client = new pg.Client(process.env.DATABASE_URL);
                 await client.connect();
                 const dbData = await client.query(SQL);
-                console.log('updateEmail, dbData=', dbData)
-                console.log('dbData.rowCount === 1????', dbData.rowCount === 1)
                 if (dbData.rowCount === 1) {
-                    console.log('{newEmail: newEmail, resultCode: 0}===', {newEmail: newEmail, resultCode: 0})
+                    //console.log('{newEmail: newEmail, resultCode: 0}===', {newEmail: newEmail, resultCode: 0})
                     res.status(200).json({newEmail: newEmail, resultCode: 0});
+                } else {
+                    res.status(459).json({resultCode: 1});
+                }
+                await client.end();
+            } catch (e) {
+                console.log('!!!!!UsersController / updateEmail / erorr=!!!!', e)
+            }
+            //res.json({resultCode: 0});
+        } catch (e) {
+            console.log('!!!usersController, updateEmail, error = ', e)
+        }
+    }
+
+    async updatePassword(req: any, res: any) {
+        try {
+            const {id, newPass} = req.body;
+            try {
+                const SQL = `UPDATE users SET password='${newPass}' WHERE id='${id}';`
+                let client = new pg.Client(process.env.DATABASE_URL);
+                await client.connect();
+                const dbData = await client.query(SQL);
+                if (dbData.rowCount === 1) {
+                    //console.log('{newEmail: newEmail, resultCode: 0}===', {newEmail: newEmail, resultCode: 0})
+                    res.status(200).json({resultCode: 0});
                 } else {
                     res.status(459).json({resultCode: 1});
                 }

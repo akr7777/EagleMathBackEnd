@@ -155,15 +155,40 @@ class UsersController {
                 const { id, newEmail } = req.body;
                 try {
                     const SQL = `UPDATE users SET email='${newEmail}' WHERE id='${id}';`;
-                    console.log('updateEmail, SQL=', SQL);
                     let client = new pg_1.default.Client(process.env.DATABASE_URL);
                     yield client.connect();
                     const dbData = yield client.query(SQL);
-                    console.log('updateEmail, dbData=', dbData);
-                    console.log('dbData.rowCount === 1????', dbData.rowCount === 1);
                     if (dbData.rowCount === 1) {
-                        console.log('{newEmail: newEmail, resultCode: 0}===', { newEmail: newEmail, resultCode: 0 });
+                        //console.log('{newEmail: newEmail, resultCode: 0}===', {newEmail: newEmail, resultCode: 0})
                         res.status(200).json({ newEmail: newEmail, resultCode: 0 });
+                    }
+                    else {
+                        res.status(459).json({ resultCode: 1 });
+                    }
+                    yield client.end();
+                }
+                catch (e) {
+                    console.log('!!!!!UsersController / updateEmail / erorr=!!!!', e);
+                }
+                //res.json({resultCode: 0});
+            }
+            catch (e) {
+                console.log('!!!usersController, updateEmail, error = ', e);
+            }
+        });
+    }
+    updatePassword(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const { id, newPass } = req.body;
+                try {
+                    const SQL = `UPDATE users SET password='${newPass}' WHERE id='${id}';`;
+                    let client = new pg_1.default.Client(process.env.DATABASE_URL);
+                    yield client.connect();
+                    const dbData = yield client.query(SQL);
+                    if (dbData.rowCount === 1) {
+                        //console.log('{newEmail: newEmail, resultCode: 0}===', {newEmail: newEmail, resultCode: 0})
+                        res.status(200).json({ resultCode: 0 });
                     }
                     else {
                         res.status(459).json({ resultCode: 1 });
