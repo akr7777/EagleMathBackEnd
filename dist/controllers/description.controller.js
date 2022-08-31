@@ -80,6 +80,7 @@ class DescriptionController {
                 let client = new pg_1.default.Client(process.env.DATABASE_URL);
                 yield client.connect();
                 const dbData = yield client.query(SQL);
+                console.log('DescrController / getDescriptionPhoto /dbData=', dbData);
                 if (dbData.rows.length === 1) {
                     const photo = dbData.rows[0].photo;
                     const fullDir = path_1.default.join(users_controller_1.pathToFolder, photo);
@@ -102,7 +103,7 @@ class DescriptionController {
             try {
                 const file = req.files.file;
                 const fileExt = file.name.split('.')[file.name.split('.').length - 1];
-                const descriptionPhotoLocation = users_controller_1.pathToUploadsDir + 'descrPhoto.' + fileExt;
+                const descriptionPhotoLocation = path_1.default.join(users_controller_1.pathToUploadsDir, 'descriptionPhoto.' + fileExt);
                 console.log('descrController / setDescriptionPhoto/ descriptionPhotoLocation=', descriptionPhotoLocation);
                 try {
                     yield file.mv(descriptionPhotoLocation);
