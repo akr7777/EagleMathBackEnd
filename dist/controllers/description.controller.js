@@ -25,7 +25,6 @@ class DescriptionController {
                 let client = new pg_1.default.Client(process.env.DATABASE_URL);
                 yield client.connect();
                 const dbData = yield client.query(SQL);
-                //console.log('DescriptionController / getDescription / dbData=', dbData)
                 if (dbData.rows.length === 1) {
                     const response = {
                         title: dbData.rows[0].title,
@@ -53,7 +52,7 @@ class DescriptionController {
                 let client = new pg_1.default.Client(process.env.DATABASE_URL);
                 yield client.connect();
                 const dbData = yield client.query(SQL);
-                console.log('setDescription / dbData.rowCount=', dbData.rowCount);
+                //console.log('setDescription / dbData.rowCount=', dbData.rowCount)
                 if (dbData.rowCount) {
                     const response = {
                         title: title,
@@ -81,7 +80,7 @@ class DescriptionController {
                 let client = new pg_1.default.Client(process.env.DATABASE_URL);
                 yield client.connect();
                 const dbData = yield client.query(SQL);
-                console.log('DescrController / getDescriptionPhoto /dbData=', dbData);
+                //console.log('DescrController / getDescriptionPhoto /dbData=', dbData)
                 if (dbData.rows.length === 1) {
                     const photo = dbData.rows[0].photo;
                     const fullDir = path_1.default.join(pathToFolder, photo);
@@ -89,7 +88,7 @@ class DescriptionController {
                 }
                 else {
                     const standartPhoto = path_1.default.join(pathToFolder, pathToUploadsDir);
-                    console.log('DESCR / getDescriptionPhoto / standartPhoto=', standartPhoto);
+                    //console.log('DESCR / getDescriptionPhoto / standartPhoto=', standartPhoto);
                     res.status(200).sendFile(standartPhoto);
                 }
                 yield client.end();
@@ -105,7 +104,7 @@ class DescriptionController {
                 const file = req.files.file;
                 const fileExt = file.name.split('.')[file.name.split('.').length - 1];
                 const descriptionPhotoLocation = path_1.default.join(pathToUploadsDir, 'descriptionPhoto.' + fileExt);
-                console.log('descrController / setDescriptionPhoto/ descriptionPhotoLocation=', descriptionPhotoLocation);
+                //console.log('descrController / setDescriptionPhoto/ descriptionPhotoLocation=', descriptionPhotoLocation)
                 try {
                     yield file.mv(descriptionPhotoLocation);
                 }
@@ -114,11 +113,11 @@ class DescriptionController {
                 }
                 try {
                     const SQL = `UPDATE description SET photo='${descriptionPhotoLocation}';`;
-                    console.log('descrController / setDescriptionPhoto/ SQL=', SQL);
+                    //console.log('descrController / setDescriptionPhoto/ SQL=', SQL)
                     let client = new pg_1.default.Client(process.env.DATABASE_URL);
                     yield client.connect();
                     const dbData = yield client.query(SQL);
-                    console.log('descrController / setDescriptionPhoto/ dbData=', dbData);
+                    //console.log('descrController / setDescriptionPhoto/ dbData=', dbData)
                     if (dbData.rows.length === 1) {
                         res.status(200).json({ resultCode: 0 });
                     }
