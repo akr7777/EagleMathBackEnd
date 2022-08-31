@@ -103,6 +103,7 @@ class DescriptionController {
                 const file = req.files.file;
                 const fileExt = file.name.split('.')[file.name.split('.').length - 1];
                 const descriptionPhotoLocation = users_controller_1.pathToUploadsDir + 'descrPhoto.' + fileExt;
+                console.log('descrController / setDescriptionPhoto/ descriptionPhotoLocation=', descriptionPhotoLocation);
                 try {
                     yield file.mv(descriptionPhotoLocation);
                 }
@@ -111,9 +112,11 @@ class DescriptionController {
                 }
                 try {
                     const SQL = `UPDATE description SET photo='${descriptionPhotoLocation}';`;
+                    console.log('descrController / setDescriptionPhoto/ SQL=', SQL);
                     let client = new pg_1.default.Client(process.env.DATABASE_URL);
                     yield client.connect();
                     const dbData = yield client.query(SQL);
+                    console.log('descrController / setDescriptionPhoto/ dbData=', dbData);
                     if (dbData.rows.length === 1) {
                         res.status(200).json({ resultCode: 0 });
                     }
@@ -123,11 +126,11 @@ class DescriptionController {
                     yield client.end();
                 }
                 catch (e) {
-                    console.log('!!!!!UsersController / avatarUpload Dbase / erorr=!!!!', e);
+                    console.log('!!!!!descriptionController / setDescriptionPhoto / erorr=!!!!', e);
                 }
             }
             catch (e) {
-                console.log('!!!usersController, avatarUpload, error = ', e);
+                console.log('!!!descrCOntroller, setDescriptionPhoto, FInal error = ', e);
             }
         });
     }
