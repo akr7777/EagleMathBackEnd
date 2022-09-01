@@ -9,5 +9,6 @@ router.post('/uploadAvatar', usersController.avatarUpload);
 router.get('/getAvatar', usersController.getAvatar);
 router.post('/updateEmail', usersController.updateEmail);
 router.post('/updatePassword', usersController.updatePassword);
+router.post('/singUpNewUser', usersController.singUpNewUser);
 
 module.exports = router;

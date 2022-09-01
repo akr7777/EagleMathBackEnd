@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const pathToUploadsDir = './src/public/uploads/';
 const pathToFolder = '/app';
+import {v1} from 'uuid';
 
 const checkFileExist = (path: string) => {
     try {
@@ -50,6 +51,35 @@ class UsersController {
                 res.status(200).json(response);
             } else {
                 //console.log('UsersController / login / {resultCode: 10}')
+                res.json({resultCode: 10});
+            }
+
+            await client.end();
+        } catch (e) {
+            console.log('!!!!!UsersController / login / erorr=!!!!', e);
+            res.json({resultCode: 1});
+        }
+    }
+
+    async singUpNewUser(req: any, res: any) {
+        const {name, email, password} = req.body;
+
+        try {
+            const newUserId = v1();
+            const SQL = `INSERT INTO users (id, name, email, isAdmin, photo, password) 
+                        VALUES ('${newUserId}', '${name}', '${email}', false, '', '${password}');`
+            let client = new pg.Client(process.env.DATABASE_URL);
+            await client.connect();
+            const dbData = await client.query(SQL);
+
+            console.log('singUpNewUser / dbData=', dbData);
+
+            if (dbData.rows.length === 1) {
+                const response = {
+                    resultCode: 0,
+                }
+                res.status(200).json(response);
+            } else {
                 res.json({resultCode: 10});
             }
 

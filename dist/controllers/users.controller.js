@@ -17,6 +17,7 @@ const fs = require('fs');
 const path = require('path');
 const pathToUploadsDir = './src/public/uploads/';
 const pathToFolder = '/app';
+const uuid_1 = require("uuid");
 const checkFileExist = (path) => {
     try {
         if (fs.existsSync(path)) {
@@ -64,6 +65,34 @@ class UsersController {
                 }
                 else {
                     //console.log('UsersController / login / {resultCode: 10}')
+                    res.json({ resultCode: 10 });
+                }
+                yield client.end();
+            }
+            catch (e) {
+                console.log('!!!!!UsersController / login / erorr=!!!!', e);
+                res.json({ resultCode: 1 });
+            }
+        });
+    }
+    singUpNewUser(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { name, email, password } = req.body;
+            try {
+                const newUserId = (0, uuid_1.v1)();
+                const SQL = `INSERT INTO users (id, name, email, isAdmin, photo, password) 
+                        VALUES ('${newUserId}', '${name}', '${email}', false, '', '${password}');`;
+                let client = new pg_1.default.Client(process.env.DATABASE_URL);
+                yield client.connect();
+                const dbData = yield client.query(SQL);
+                console.log('singUpNewUser / dbData=', dbData);
+                if (dbData.rows.length === 1) {
+                    const response = {
+                        resultCode: 0,
+                    };
+                    res.status(200).json(response);
+                }
+                else {
                     res.json({ resultCode: 10 });
                 }
                 yield client.end();
