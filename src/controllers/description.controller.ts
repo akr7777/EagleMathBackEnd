@@ -32,8 +32,9 @@ class DescriptionController {
     }
 
     async setDescription(req: any, res: any) {
-        const {title, photo, description} = req.body;
-        const SQL = `UPDATE description SET title='${title}', photo='${photo}', description='${description}';`
+        const {title, /*photo,*/ description} = req.body;
+        //const SQL = `UPDATE description SET title='${title}', photo='${photo}', description='${description}';`
+        const SQL = `UPDATE description SET title='${title}', description='${description}';`
 
         try {
             let client = new pg.Client(process.env.DATABASE_URL);
@@ -44,7 +45,7 @@ class DescriptionController {
             if (dbData.rowCount) {
                const response = {
                     title: title,
-                    photo: photo,
+                    //photo: photo,
                     description: description,
                     resultCode: 0,
                 }

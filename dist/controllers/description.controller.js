@@ -46,8 +46,9 @@ class DescriptionController {
     }
     setDescription(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { title, photo, description } = req.body;
-            const SQL = `UPDATE description SET title='${title}', photo='${photo}', description='${description}';`;
+            const { title, /*photo,*/ description } = req.body;
+            //const SQL = `UPDATE description SET title='${title}', photo='${photo}', description='${description}';`
+            const SQL = `UPDATE description SET title='${title}', description='${description}';`;
             try {
                 let client = new pg_1.default.Client(process.env.DATABASE_URL);
                 yield client.connect();
@@ -56,7 +57,7 @@ class DescriptionController {
                 if (dbData.rowCount) {
                     const response = {
                         title: title,
-                        photo: photo,
+                        //photo: photo,
                         description: description,
                         resultCode: 0,
                     };
