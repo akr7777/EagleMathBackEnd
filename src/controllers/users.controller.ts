@@ -32,12 +32,12 @@ class UsersController {
 
         try {
             const SQL = `SELECT * FROM USERS WHERE email='${email}' AND password='${password}';`
-            console.log('UsersController / login / SQL=', SQL)
+            //console.log('UsersController / login / SQL=', SQL)
             let client = new pg.Client(process.env.DATABASE_URL);
             await client.connect();
             const dbData = await client.query(SQL);
 
-            console.log('UsersController / login / dbData=', dbData)
+            //console.log('UsersController / login / dbData=', dbData)
             if (dbData.rows.length === 1) {
                 const response = {
                     id: dbData.rows[0].id,
@@ -49,7 +49,7 @@ class UsersController {
                 }
                 res.status(200).json(response);
             } else {
-                console.log('UsersController / login / {resultCode: 10}')
+                //console.log('UsersController / login / {resultCode: 10}')
                 res.json({resultCode: 10});
             }
 
