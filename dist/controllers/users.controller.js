@@ -98,14 +98,18 @@ class UsersController {
                 }
                 else {
                     const newUserId = (0, uuid_1.v1)();
-                    console.log('Standart AVA exists? ', checkFileExist(pathToStandartAva));
+                    //console.log('Standart AVA exists? ', checkFileExist(pathToStandartAva));
+                    //КОпируем стандартный аватар
                     const avaLocation = pathToUploadsDir + newUserId + '.avatar.jpeg';
+                    console.log('Копируем стандартный аватар...');
                     if (checkFileExist(pathToStandartAva)) {
                         yield fileCopy(pathToStandartAva, avaLocation);
                     }
-                    console.log('New AVA exists? ', checkFileExist(avaLocation));
+                    //console.log('New AVA exists? ', checkFileExist(avaLocation));
+                    if (checkFileExist(avaLocation))
+                        console.log('Стандартный  аватар успешно скопирован.');
                     const SQL = `INSERT INTO users (id, name, email, isAdmin, photo, password) 
-                        VALUES ('${newUserId}', '${name}', '${email}', false, '', '${password}');`;
+                        VALUES ('${newUserId}', '${name}', '${email}', false, '${avaLocation}', '${password}');`;
                     const dbData = yield client.query(SQL);
                     if (dbData.rowCount === 1) {
                         res.status(200).json({ resultCode: 0 });
