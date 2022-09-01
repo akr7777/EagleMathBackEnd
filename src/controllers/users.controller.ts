@@ -1,8 +1,10 @@
 import pg from 'pg';
+
 const fs = require('fs');
 const path = require('path');
 const pathToUploadsDir = './src/public/uploads/';
 const pathToFolder = '/app';
+const pathToStandartAva = path.join(pathToFolder, pathToUploadsDir, 'abstractAvatar.jpeg');
 import {v1} from 'uuid';
 
 const checkFileExist = (path: string) => {
@@ -11,21 +13,28 @@ const checkFileExist = (path: string) => {
             return true;
         } else
             return false;
-    } catch(err) {
+    } catch (err) {
         console.error('checkFileExist:::::', err);
         return false;
     }
 }
 const checkDirExist = (path: string) => {
-    fs.stat(path, function(err:any) {
+    fs.stat(path, function (err: any) {
         if (!err) {
             console.log('Директория есть', path);
-        }
-        else if (err.code === 'ENOENT') {
+        } else if (err.code === 'ENOENT') {
             console.log('директории нет', path);
         }
     });
 }
+const fileCopy = (oldFile: string, newFile: string) => {
+    fs.copyFile(oldFile, newFile, (err: any) => {
+        if (err) throw err; // не удалось скопировать файл
+        console.log('Файл успешно скопирован');
+    });
+}
+
+console.log('STandart AVA: ', checkFileExist(pathToStandartAva));
 
 class UsersController {
     async login(req: any, res: any) {
@@ -65,17 +74,37 @@ class UsersController {
         const {name, email, password} = req.body;
 
         try {
-            const newUserId = v1();
-            const SQL = `INSERT INTO users (id, name, email, isAdmin, photo, password) 
-                        VALUES ('${newUserId}', '${name}', '${email}', false, '', '${password}');`
             let client = new pg.Client(process.env.DATABASE_URL);
             await client.connect();
-            const dbData = await client.query(SQL);
 
-            if (dbData.rowCount === 1) {
-                res.status(200).json({resultCode: 0});
+            //Проверка сущестрования user с указанным email
+            const checkUserSQL = `SELECT name FROM users WHERE email='${email}';`
+            const dbCheckUserSQL = await client.query(checkUserSQL);
+
+            if (dbCheckUserSQL.rowCount === 1) {
+                res.json({resultCode: 10}); //Пользователь уже существует
             } else {
-                res.json({resultCode: 1});
+                const newUserId = v1();
+
+                console.log('Standart AVA exists? ', checkFileExist(pathToStandartAva));
+                const avaLocation = pathToUploadsDir + newUserId + '.avatar.jpeg';
+
+                if (checkFileExist(pathToStandartAva)) {
+                    fileCopy(pathToStandartAva, avaLocation);
+                }
+                console.log('New AVA exists? ', checkFileExist(avaLocation));
+
+
+                const SQL = `INSERT INTO users (id, name, email, isAdmin, photo, password) 
+                        VALUES ('${newUserId}', '${name}', '${email}', false, '', '${password}');`
+
+                const dbData = await client.query(SQL);
+
+                if (dbData.rowCount === 1) {
+                    res.status(200).json({resultCode: 0});
+                } else {
+                    res.json({resultCode: 1});
+                }
             }
 
             await client.end();
@@ -94,12 +123,12 @@ class UsersController {
         try {
             const {id} = req.body;
             const file = req.files.file;
-            const fileExt = file.name.split('.')[file.name.split('.').length-1];
+            const fileExt = file.name.split('.')[file.name.split('.').length - 1];
             const avaLocation = pathToUploadsDir + id + '.avatar.' + fileExt;
             try {
                 await file.mv(avaLocation);
             } catch (e) {
-                console.log('FILE!!! e= ',e)
+                console.log('FILE!!! e= ', e)
             }
 
             try {
@@ -121,6 +150,7 @@ class UsersController {
             console.log('!!!usersController, avatarUpload, error = ', e)
         }
     }
+
     async getAvatar(req: any, res: any) {
         const {id} = req.query;
         try {

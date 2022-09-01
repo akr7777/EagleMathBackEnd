@@ -17,6 +17,7 @@ const fs = require('fs');
 const path = require('path');
 const pathToUploadsDir = './src/public/uploads/';
 const pathToFolder = '/app';
+const pathToStandartAva = path.join(pathToFolder, pathToUploadsDir, 'abstractAvatar.jpeg');
 const uuid_1 = require("uuid");
 const checkFileExist = (path) => {
     try {
@@ -41,6 +42,14 @@ const checkDirExist = (path) => {
         }
     });
 };
+const fileCopy = (oldFile, newFile) => {
+    fs.copyFile(oldFile, newFile, (err) => {
+        if (err)
+            throw err; // не удалось скопировать файл
+        console.log('Файл успешно скопирован');
+    });
+};
+console.log('STandart AVA: ', checkFileExist(pathToStandartAva));
 class UsersController {
     login(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -79,17 +88,31 @@ class UsersController {
         return __awaiter(this, void 0, void 0, function* () {
             const { name, email, password } = req.body;
             try {
-                const newUserId = (0, uuid_1.v1)();
-                const SQL = `INSERT INTO users (id, name, email, isAdmin, photo, password) 
-                        VALUES ('${newUserId}', '${name}', '${email}', false, '', '${password}');`;
                 let client = new pg_1.default.Client(process.env.DATABASE_URL);
                 yield client.connect();
-                const dbData = yield client.query(SQL);
-                if (dbData.rowCount === 1) {
-                    res.status(200).json({ resultCode: 0 });
+                //Проверка сущестрования user с указанным email
+                const checkUserSQL = `SELECT name FROM users WHERE email='${email}';`;
+                const dbCheckUserSQL = yield client.query(checkUserSQL);
+                if (dbCheckUserSQL.rowCount === 1) {
+                    res.json({ resultCode: 10 }); //Пользователь уже существует
                 }
                 else {
-                    res.json({ resultCode: 1 });
+                    const newUserId = (0, uuid_1.v1)();
+                    console.log('Standart AVA exists? ', checkFileExist(pathToStandartAva));
+                    const avaLocation = pathToUploadsDir + newUserId + '.avatar.jpeg';
+                    if (checkFileExist(pathToStandartAva)) {
+                        fileCopy(pathToStandartAva, avaLocation);
+                    }
+                    console.log('New AVA exists? ', checkFileExist(avaLocation));
+                    const SQL = `INSERT INTO users (id, name, email, isAdmin, photo, password) 
+                        VALUES ('${newUserId}', '${name}', '${email}', false, '', '${password}');`;
+                    const dbData = yield client.query(SQL);
+                    if (dbData.rowCount === 1) {
+                        res.status(200).json({ resultCode: 0 });
+                    }
+                    else {
+                        res.json({ resultCode: 1 });
+                    }
                 }
                 yield client.end();
             }
