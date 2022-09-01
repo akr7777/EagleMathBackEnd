@@ -42,13 +42,13 @@ const checkDirExist = (path) => {
         }
     });
 };
-const fileCopy = (oldFile, newFile) => {
-    fs.copyFile(oldFile, newFile, (err) => {
+const fileCopy = (oldFile, newFile) => __awaiter(void 0, void 0, void 0, function* () {
+    yield fs.copyFile(oldFile, newFile, (err) => {
         if (err)
             throw err; // не удалось скопировать файл
         console.log('Файл успешно скопирован');
     });
-};
+});
 console.log('STandart AVA: ', checkFileExist(pathToStandartAva));
 class UsersController {
     login(req, res) {
@@ -101,7 +101,7 @@ class UsersController {
                     console.log('Standart AVA exists? ', checkFileExist(pathToStandartAva));
                     const avaLocation = pathToUploadsDir + newUserId + '.avatar.jpeg';
                     if (checkFileExist(pathToStandartAva)) {
-                        fileCopy(pathToStandartAva, avaLocation);
+                        yield fileCopy(pathToStandartAva, avaLocation);
                     }
                     console.log('New AVA exists? ', checkFileExist(avaLocation));
                     const SQL = `INSERT INTO users (id, name, email, isAdmin, photo, password) 

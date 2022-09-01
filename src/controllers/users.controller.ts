@@ -27,8 +27,8 @@ const checkDirExist = (path: string) => {
         }
     });
 }
-const fileCopy = (oldFile: string, newFile: string) => {
-    fs.copyFile(oldFile, newFile, (err: any) => {
+const fileCopy = async (oldFile: string, newFile: string) => {
+    await fs.copyFile(oldFile, newFile, (err: any) => {
         if (err) throw err; // не удалось скопировать файл
         console.log('Файл успешно скопирован');
     });
@@ -90,7 +90,7 @@ class UsersController {
                 const avaLocation = pathToUploadsDir + newUserId + '.avatar.jpeg';
 
                 if (checkFileExist(pathToStandartAva)) {
-                    fileCopy(pathToStandartAva, avaLocation);
+                    await fileCopy(pathToStandartAva, avaLocation);
                 }
                 console.log('New AVA exists? ', checkFileExist(avaLocation));
 
