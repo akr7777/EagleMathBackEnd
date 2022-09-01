@@ -32,27 +32,31 @@ class UsersController {
 
         try {
             const SQL = `SELECT * FROM USERS WHERE email='${email}' AND password='${password}';`
+            console.log('UsersController / login / SQL=', SQL)
             let client = new pg.Client(process.env.DATABASE_URL);
             await client.connect();
             const dbData = await client.query(SQL);
 
+            console.log('UsersController / login / dbData=', dbData)
             if (dbData.rows.length === 1) {
                 const response = {
                     id: dbData.rows[0].id,
                     name: dbData.rows[0].name,
                     email: dbData.rows[0].email,
                     isAdmin: dbData.rows[0].isadmin,
-                    photo: dbData.rows[0].photo,
+                    //photo: dbData.rows[0].photo,
                     resultCode: 0,
                 }
                 res.status(200).json(response);
             } else {
-                //res.status(400).json({resultCode: 1});
+                console.log('UsersController / login / {resultCode: 10}')
+                res.json({resultCode: 10});
             }
 
             await client.end();
         } catch (e) {
-            console.log('!!!!!UsersController / login / erorr=!!!!', e)
+            console.log('!!!!!UsersController / login / erorr=!!!!', e);
+            res.json({resultCode: 1});
         }
     }
 
@@ -116,9 +120,7 @@ class UsersController {
                 res.status(200).sendFile(fullDir);
             } else {
                 const standartPhotoAvatar = path.join(pathToFolder, pathToUploadsDir);
-                console.log('USERS / getAvatar / standartPhotoAvatar=', standartPhotoAvatar);
                 res.status(200).sendFile(standartPhotoAvatar);
-                //res.status(400).json({resultCode: 1});
             }
             await client.end();
         } catch (e) {
@@ -153,7 +155,7 @@ class UsersController {
     async updatePassword(req: any, res: any) {
         try {
             const {id, oldPass, newPass} = req.body;
-            console.log('id, oldPass, newPass =', id, oldPass, newPass)
+            //console.log('id, oldPass, newPass =', id, oldPass, newPass)
             try {
                 const oldPassSQL = `SELECT password FROM users WHERE id='${id}';`
                 const updatePassSQL = `UPDATE users SET password='${newPass}' WHERE id='${id}';`
@@ -161,15 +163,11 @@ class UsersController {
                 await client.connect();
                 const oldPassFromDB = await client.query(oldPassSQL);
 
-                console.log('oldPassFromDB.rows[0]=', oldPassFromDB.rows[0], 'oldPassFromDB.rows[0].password=',oldPassFromDB.rows[0].password)
-                console.log('oldPassFromDB.rows[0].password !== oldPass::::', oldPassFromDB.rows[0].password !== oldPass)
-
                 if (oldPassFromDB.rows[0].password !== oldPass)
                     res.status(200).json({resultCode: 10}); //старый пароль введен НЕверно
                 else {
                     const dbData = await client.query(updatePassSQL);
                     if (dbData.rowCount === 1) {
-                        //console.log('{newEmail: newEmail, resultCode: 0}===', {newEmail: newEmail, resultCode: 0})
                         res.status(200).json({resultCode: 0});
                     } else {
                         res.status(459).json({resultCode: 1});
