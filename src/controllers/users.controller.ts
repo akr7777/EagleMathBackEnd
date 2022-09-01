@@ -76,12 +76,9 @@ class UsersController {
 
             if (dbData.rowCount === 1) {
                 console.log('Good responce')
-                const response = {
-                    resultCode: 0,
-                }
-                res.status(200).json(response);
+                res.status(200).json({resultCode: 0});
             } else {
-                res.json({resultCode: 10});
+                res.json({resultCode: 1});
             }
 
             await client.end();
