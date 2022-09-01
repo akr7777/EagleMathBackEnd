@@ -49,7 +49,6 @@ const fileCopy = (oldFile, newFile) => __awaiter(void 0, void 0, void 0, functio
         console.log('Файл успешно скопирован');
     });
 });
-console.log('STandart AVA: ', checkFileExist(pathToStandartAva));
 class UsersController {
     login(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -98,7 +97,6 @@ class UsersController {
                 }
                 else {
                     const newUserId = (0, uuid_1.v1)();
-                    //console.log('Standart AVA exists? ', checkFileExist(pathToStandartAva));
                     //КОпируем стандартный аватар
                     const avaLocation = pathToUploadsDir + newUserId + '.avatar.jpeg';
                     console.log('Копируем стандартный аватар...');

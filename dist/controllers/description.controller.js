@@ -80,10 +80,11 @@ class DescriptionController {
                 let client = new pg_1.default.Client(process.env.DATABASE_URL);
                 yield client.connect();
                 const dbData = yield client.query(SQL);
-                //console.log('DescrController / getDescriptionPhoto /dbData=', dbData)
+                console.log('DescrController / getDescriptionPhoto /dbData=', dbData);
                 if (dbData.rows.length === 1) {
                     const photo = dbData.rows[0].photo;
                     const fullDir = path_1.default.join(pathToFolder, photo);
+                    console.log('DescrController / getDescriptionPhoto /fullDir=', fullDir);
                     res.status(200).sendFile(fullDir);
                 }
                 else {

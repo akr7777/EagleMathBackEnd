@@ -34,8 +34,6 @@ const fileCopy = async (oldFile: string, newFile: string) => {
     });
 }
 
-console.log('STandart AVA: ', checkFileExist(pathToStandartAva));
-
 class UsersController {
     async login(req: any, res: any) {
         const {email, password} = req.body;
@@ -86,7 +84,6 @@ class UsersController {
             } else {
                 const newUserId = v1();
 
-                //console.log('Standart AVA exists? ', checkFileExist(pathToStandartAva));
                 //КОпируем стандартный аватар
                 const avaLocation = pathToUploadsDir + newUserId + '.avatar.jpeg';
                 console.log('Копируем стандартный аватар...')
