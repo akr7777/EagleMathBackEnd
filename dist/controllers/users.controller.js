@@ -85,9 +85,7 @@ class UsersController {
                 let client = new pg_1.default.Client(process.env.DATABASE_URL);
                 yield client.connect();
                 const dbData = yield client.query(SQL);
-                console.log('singUpNewUser / dbData=', dbData);
                 if (dbData.rowCount === 1) {
-                    console.log('Good responce');
                     res.status(200).json({ resultCode: 0 });
                 }
                 else {

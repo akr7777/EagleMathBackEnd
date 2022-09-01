@@ -72,10 +72,7 @@ class UsersController {
             await client.connect();
             const dbData = await client.query(SQL);
 
-            console.log('singUpNewUser / dbData=', dbData);
-
             if (dbData.rowCount === 1) {
-                console.log('Good responce')
                 res.status(200).json({resultCode: 0});
             } else {
                 res.json({resultCode: 1});
