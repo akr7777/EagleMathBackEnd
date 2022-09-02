@@ -7,6 +7,9 @@ const pathToFolder = '/app';
 const pathToStandartAva = path.join(pathToFolder, pathToUploadsDir, 'abstractAvatar.jpeg');
 import {v1} from 'uuid';
 
+const bodyParser = require('body-parser');
+const jwt = require('jsonwebtoken');
+
 const checkFileExist = (path: string) => {
     try {
         if (fs.existsSync(path)) {
@@ -34,13 +37,107 @@ const fileCopy = async (oldFile: string, newFile: string) => {
     });
 }
 
+const accessTokenSecret = 'somerandomaccesstoken';
+const refreshTokenSecret = 'somerandomstringforrefreshtoken';
+type UserTokenDataType = {
+    id: string,
+    name: string,
+    email: string,
+    isAdmin: boolean,
+}
+let refreshTokens: Array<UserTokenDataType> = [];
+
 class UsersController {
     async login(req: any, res: any) {
+        // read username and password from request body
+        const {email, password} = req.body;
+
+        // filter user from the users array by username and password
+        /*const user = users.find(u => {
+            return u.username === username && u.password === password
+        });*/
+        let user = null;
+        const SQL = `SELECT id,name,email,isadmin FROM USERS WHERE email='${email}' AND password='${password}';`
+        let client = new pg.Client(process.env.DATABASE_URL);
+        await client.connect();
+        const dbData = await client.query(SQL);
+        if (dbData.rows.length === 1) {
+            user = {
+                id: dbData.rows[0].id,
+                name: dbData.rows[0].name,
+                email: dbData.rows[0].email,
+                isAdmin: dbData.rows[0].isadmin,
+            }
+        }
+
+        if (user) {
+            // generate an access token
+            const userToken = {
+                id: dbData.rows[0].id,
+                name: dbData.rows[0].name,
+                email: dbData.rows[0].email,
+                isAdmin: dbData.rows[0].isadmin,
+            }
+            const accessToken = jwt.sign(userToken, accessTokenSecret, {expiresIn: '20m'});
+            const refreshToken = jwt.sign(userToken, refreshTokenSecret);
+
+            refreshTokens.push(refreshToken);
+
+            res.json({
+                accessToken,
+                refreshToken
+            });
+        } else {
+            res.send({resultCode: 10}); //Если пользователя нет в БД, отправляем этот resultCode
+        }
+
+        await client.end();
+    }
+
+    //обработчик запроса, который генерирует новые токены на основе обновленных токенов:
+    async token(req: any, res: any) {
+        const {token} = req.body;
+
+        if (!token) {
+            return res.sendStatus(401);
+        }
+
+        if (!refreshTokens.includes(token)) {
+            return res.sendStatus(403);
+        }
+
+        jwt.verify(token, refreshTokenSecret, (err: any, user: UserTokenDataType) => {
+            if (err) {
+                return res.sendStatus(403);
+            }
+
+            const userToken = {
+                id: user.id,
+                name: user.name,
+                email: user.email,
+                isAdmin: user.isAdmin,
+            }
+            const accessToken = jwt.sign(userToken, accessTokenSecret, {expiresIn: '20m'});
+
+            res.json({
+                accessToken
+            });
+        });
+    }
+
+    //Если токен refresh будет украден у пользователя, кто-то может использовать его для генерации любого количества новых токенов.
+    // Чтобы избежать этого, давайте реализуем простую функцию выхода из системы:
+    async logout(req: any, res: any) {
+        const {token} = req.body;
+        refreshTokens = refreshTokens.filter(t => t !== token);
+        res.send("Logout successful");
+    }
+
+    /*async login(req: any, res: any) {
         const {email, password} = req.body;
 
         try {
             const SQL = `SELECT * FROM USERS WHERE email='${email}' AND password='${password}';`
-            //console.log('UsersController / login / SQL=', SQL)
             let client = new pg.Client(process.env.DATABASE_URL);
             await client.connect();
             const dbData = await client.query(SQL);
@@ -66,7 +163,7 @@ class UsersController {
             console.log('!!!!!UsersController / login / erorr=!!!!', e);
             res.json({resultCode: 1});
         }
-    }
+    }*/
 
     async singUpNewUser(req: any, res: any) {
         const {name, email, password} = req.body;

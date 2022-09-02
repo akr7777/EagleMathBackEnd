@@ -5,6 +5,8 @@ const Router = require("express");
 exports.router = new Router();
 const usersController = require('./../controllers/users.controller');
 exports.router.post('/login', usersController.login);
+exports.router.post('/token', usersController.token);
+exports.router.post('/logout', usersController.logout);
 exports.router.get('/getuser', usersController.getUser);
 exports.router.post('/uploadAvatar', usersController.avatarUpload);
 exports.router.get('/getAvatar', usersController.getAvatar);

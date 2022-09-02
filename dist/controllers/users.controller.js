@@ -19,6 +19,8 @@ const pathToUploadsDir = './src/public/uploads/';
 const pathToFolder = '/app';
 const pathToStandartAva = path.join(pathToFolder, pathToUploadsDir, 'abstractAvatar.jpeg');
 const uuid_1 = require("uuid");
+const bodyParser = require('body-parser');
+const jwt = require('jsonwebtoken');
 const checkFileExist = (path) => {
     try {
         if (fs.existsSync(path)) {
@@ -49,40 +51,120 @@ const fileCopy = (oldFile, newFile) => __awaiter(void 0, void 0, void 0, functio
         console.log('Файл успешно скопирован');
     });
 });
+const accessTokenSecret = 'somerandomaccesstoken';
+const refreshTokenSecret = 'somerandomstringforrefreshtoken';
+let refreshTokens = [];
 class UsersController {
     login(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
+            // read username and password from request body
             const { email, password } = req.body;
-            try {
-                const SQL = `SELECT * FROM USERS WHERE email='${email}' AND password='${password}';`;
-                //console.log('UsersController / login / SQL=', SQL)
-                let client = new pg_1.default.Client(process.env.DATABASE_URL);
-                yield client.connect();
-                const dbData = yield client.query(SQL);
-                //console.log('UsersController / login / dbData=', dbData)
-                if (dbData.rows.length === 1) {
-                    const response = {
-                        id: dbData.rows[0].id,
-                        name: dbData.rows[0].name,
-                        email: dbData.rows[0].email,
-                        isAdmin: dbData.rows[0].isadmin,
-                        //photo: dbData.rows[0].photo,
-                        resultCode: 0,
-                    };
-                    res.status(200).json(response);
-                }
-                else {
-                    //console.log('UsersController / login / {resultCode: 10}')
-                    res.json({ resultCode: 10 });
-                }
-                yield client.end();
+            // filter user from the users array by username and password
+            /*const user = users.find(u => {
+                return u.username === username && u.password === password
+            });*/
+            let user = null;
+            const SQL = `SELECT id,name,email,isadmin FROM USERS WHERE email='${email}' AND password='${password}';`;
+            let client = new pg_1.default.Client(process.env.DATABASE_URL);
+            yield client.connect();
+            const dbData = yield client.query(SQL);
+            if (dbData.rows.length === 1) {
+                user = {
+                    id: dbData.rows[0].id,
+                    name: dbData.rows[0].name,
+                    email: dbData.rows[0].email,
+                    isAdmin: dbData.rows[0].isadmin,
+                };
             }
-            catch (e) {
-                console.log('!!!!!UsersController / login / erorr=!!!!', e);
-                res.json({ resultCode: 1 });
+            if (user) {
+                // generate an access token
+                const userToken = {
+                    id: dbData.rows[0].id,
+                    name: dbData.rows[0].name,
+                    email: dbData.rows[0].email,
+                    isAdmin: dbData.rows[0].isadmin,
+                };
+                const accessToken = jwt.sign(userToken, accessTokenSecret, { expiresIn: '20m' });
+                const refreshToken = jwt.sign(userToken, refreshTokenSecret);
+                refreshTokens.push(refreshToken);
+                res.json({
+                    accessToken,
+                    refreshToken
+                });
             }
+            else {
+                res.send({ resultCode: 10 }); //Если пользователя нет в БД, отправляем этот resultCode
+            }
+            yield client.end();
         });
     }
+    //обработчик запроса, который генерирует новые токены на основе обновленных токенов:
+    token(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { token } = req.body;
+            if (!token) {
+                return res.sendStatus(401);
+            }
+            if (!refreshTokens.includes(token)) {
+                return res.sendStatus(403);
+            }
+            jwt.verify(token, refreshTokenSecret, (err, user) => {
+                if (err) {
+                    return res.sendStatus(403);
+                }
+                const userToken = {
+                    id: user.id,
+                    name: user.name,
+                    email: user.email,
+                    isAdmin: user.isAdmin,
+                };
+                const accessToken = jwt.sign(userToken, accessTokenSecret, { expiresIn: '20m' });
+                res.json({
+                    accessToken
+                });
+            });
+        });
+    }
+    //Если токен refresh будет украден у пользователя, кто-то может использовать его для генерации любого количества новых токенов.
+    // Чтобы избежать этого, давайте реализуем простую функцию выхода из системы:
+    logout(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { token } = req.body;
+            refreshTokens = refreshTokens.filter(t => t !== token);
+            res.send("Logout successful");
+        });
+    }
+    /*async login(req: any, res: any) {
+        const {email, password} = req.body;
+
+        try {
+            const SQL = `SELECT * FROM USERS WHERE email='${email}' AND password='${password}';`
+            let client = new pg.Client(process.env.DATABASE_URL);
+            await client.connect();
+            const dbData = await client.query(SQL);
+
+            //console.log('UsersController / login / dbData=', dbData)
+            if (dbData.rows.length === 1) {
+                const response = {
+                    id: dbData.rows[0].id,
+                    name: dbData.rows[0].name,
+                    email: dbData.rows[0].email,
+                    isAdmin: dbData.rows[0].isadmin,
+                    //photo: dbData.rows[0].photo,
+                    resultCode: 0,
+                }
+                res.status(200).json(response);
+            } else {
+                //console.log('UsersController / login / {resultCode: 10}')
+                res.json({resultCode: 10});
+            }
+
+            await client.end();
+        } catch (e) {
+            console.log('!!!!!UsersController / login / erorr=!!!!', e);
+            res.json({resultCode: 1});
+        }
+    }*/
     singUpNewUser(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { name, email, password } = req.body;
