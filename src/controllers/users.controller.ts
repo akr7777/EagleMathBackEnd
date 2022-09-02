@@ -56,6 +56,8 @@ class UsersController {
         /*const user = users.find(u => {
             return u.username === username && u.password === password
         });*/
+
+        //Проверяем соответсвуют ли данные логина данным пользователя (email и password)
         let user = null;
         const SQL = `SELECT id,name,email,isadmin FROM USERS WHERE email='${email}' AND password='${password}';`
         let client = new pg.Client(process.env.DATABASE_URL);
@@ -69,7 +71,6 @@ class UsersController {
                 isAdmin: dbData.rows[0].isadmin,
             }
         }
-
         if (user) {
             // generate an access token
             const userToken = {
