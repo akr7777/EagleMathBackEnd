@@ -15,7 +15,7 @@ const port = process.env.PORT || 3001;
 
 const cors = require('cors');
 app.use(cors({
-    "credentials": true
+    credentials: true
 }));
 const jsonBodyMiddleware = express.json();
 app.use(jsonBodyMiddleware);
