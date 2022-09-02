@@ -51,8 +51,6 @@ const fileCopy = (oldFile, newFile) => __awaiter(void 0, void 0, void 0, functio
         console.log('Файл успешно скопирован');
     });
 });
-//const accessTokenSecret = 'somerandomaccesstoken';
-//const refreshTokenSecret = 'somerandomstringforrefreshtoken';
 const accessTokenSecret = process.env.accessTokenSecret;
 const refreshTokenSecret = process.env.refreshTokenSecret;
 let refreshTokens = [];

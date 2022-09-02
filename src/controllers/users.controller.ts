@@ -37,8 +37,6 @@ const fileCopy = async (oldFile: string, newFile: string) => {
     });
 }
 
-//const accessTokenSecret = 'somerandomaccesstoken';
-//const refreshTokenSecret = 'somerandomstringforrefreshtoken';
 const accessTokenSecret = process.env.accessTokenSecret;
 const refreshTokenSecret = process.env.refreshTokenSecret;
 
