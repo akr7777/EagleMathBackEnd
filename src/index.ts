@@ -14,9 +14,7 @@ const app = express();
 const port = process.env.PORT || 3001;
 
 const cors = require('cors');
-app.use(cors({
-    credentials: true
-}));
+app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
 const jsonBodyMiddleware = express.json();
 app.use(jsonBodyMiddleware);
 
