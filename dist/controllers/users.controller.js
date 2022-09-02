@@ -51,18 +51,18 @@ const fileCopy = (oldFile, newFile) => __awaiter(void 0, void 0, void 0, functio
         console.log('Файл успешно скопирован');
     });
 });
-const accessTokenSecret = 'somerandomaccesstoken';
-const refreshTokenSecret = 'somerandomstringforrefreshtoken';
+//const accessTokenSecret = 'somerandomaccesstoken';
+//const refreshTokenSecret = 'somerandomstringforrefreshtoken';
+const accessTokenSecret = process.env.accessTokenSecret;
+const refreshTokenSecret = process.env.refreshTokenSecret;
 let refreshTokens = [];
 class UsersController {
     login(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             // read username and password from request body
             const { email, password } = req.body;
-            // filter user from the users array by username and password
-            /*const user = users.find(u => {
-                return u.username === username && u.password === password
-            });*/
+            console.log('accessTokenSecret=', accessTokenSecret);
+            console.log('refreshTokenSecret=', refreshTokenSecret);
             //Проверяем соответсвуют ли данные логина данным пользователя (email и password)
             let user = null;
             const SQL = `SELECT id,name,email,isadmin FROM USERS WHERE email='${email}' AND password='${password}';`;
@@ -88,10 +88,8 @@ class UsersController {
                 const accessToken = jwt.sign(userToken, accessTokenSecret, { expiresIn: '20m' });
                 const refreshToken = jwt.sign(userToken, refreshTokenSecret);
                 refreshTokens.push(refreshToken);
-                res.json({
-                    accessToken,
-                    refreshToken
-                });
+                res.json(Object.assign(Object.assign({ accessToken,
+                    refreshToken }, userToken), { resultCode: 0 }));
             }
             else {
                 res.send({ resultCode: 10 }); //Если пользователя нет в БД, отправляем этот resultCode

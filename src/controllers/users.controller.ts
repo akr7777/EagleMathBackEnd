@@ -37,8 +37,11 @@ const fileCopy = async (oldFile: string, newFile: string) => {
     });
 }
 
-const accessTokenSecret = 'somerandomaccesstoken';
-const refreshTokenSecret = 'somerandomstringforrefreshtoken';
+//const accessTokenSecret = 'somerandomaccesstoken';
+//const refreshTokenSecret = 'somerandomstringforrefreshtoken';
+const accessTokenSecret = process.env.accessTokenSecret;
+const refreshTokenSecret = process.env.refreshTokenSecret;
+
 type UserTokenDataType = {
     id: string,
     name: string,
@@ -52,10 +55,8 @@ class UsersController {
         // read username and password from request body
         const {email, password} = req.body;
 
-        // filter user from the users array by username and password
-        /*const user = users.find(u => {
-            return u.username === username && u.password === password
-        });*/
+        console.log('accessTokenSecret=', accessTokenSecret);
+        console.log('refreshTokenSecret=',refreshTokenSecret);
 
         //Проверяем соответсвуют ли данные логина данным пользователя (email и password)
         let user = null;
@@ -86,7 +87,10 @@ class UsersController {
 
             res.json({
                 accessToken,
-                refreshToken
+                refreshToken,
+
+                ...userToken,
+                resultCode: 0,
             });
         } else {
             res.send({resultCode: 10}); //Если пользователя нет в БД, отправляем этот resultCode
