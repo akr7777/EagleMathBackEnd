@@ -59,10 +59,9 @@ let refreshTokens = [];
 class UsersController {
     login(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
+            console.log('req=', req);
             // read username and password from request body
             const { email, password } = req.body;
-            console.log('accessTokenSecret=', accessTokenSecret);
-            console.log('refreshTokenSecret=', refreshTokenSecret);
             //Проверяем соответсвуют ли данные логина данным пользователя (email и password)
             let user = null;
             const SQL = `SELECT id,name,email,isadmin FROM USERS WHERE email='${email}' AND password='${password}';`;

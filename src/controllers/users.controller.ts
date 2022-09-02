@@ -52,11 +52,9 @@ let refreshTokens: Array<UserTokenDataType> = [];
 
 class UsersController {
     async login(req: any, res: any) {
+        console.log('req=', req)
         // read username and password from request body
         const {email, password} = req.body;
-
-        console.log('accessTokenSecret=', accessTokenSecret);
-        console.log('refreshTokenSecret=',refreshTokenSecret);
 
         //Проверяем соответсвуют ли данные логина данным пользователя (email и password)
         let user = null;
