@@ -12,6 +12,7 @@ const contactsRouter = require('./rotes/contacts.routes');
 
 const app = express();
 const port = process.env.PORT || 3001;
+const cookieParser = require('cookie-parser');
 
 const cors = require('cors');
 app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
@@ -20,6 +21,7 @@ app.use(jsonBodyMiddleware);
 
 app.use(fileUpload({}));
 app.use(express.static('src/public'));
+app.use(cookieParser());
 
 /*const Router = require("express");
 export const router = new Router();*/

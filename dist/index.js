@@ -14,12 +14,14 @@ const descriptionRouter = require('./rotes/description.routes');
 const contactsRouter = require('./rotes/contacts.routes');
 const app = (0, express_1.default)();
 const port = process.env.PORT || 3001;
+const cookieParser = require('cookie-parser');
 const cors = require('cors');
 app.use(cors({ credentials: true, origin: 'http://localhost:3000' }));
 const jsonBodyMiddleware = express_1.default.json();
 app.use(jsonBodyMiddleware);
 app.use(fileUpload({}));
 app.use(express_1.default.static('src/public'));
+app.use(cookieParser());
 /*const Router = require("express");
 export const router = new Router();*/
 app.get('/', cors(), (req, res) => {
