@@ -52,19 +52,11 @@ const fileCopy = (oldFile, newFile) => __awaiter(void 0, void 0, void 0, functio
         console.log('Файл успешно скопирован');
     });
 });
-const createLoginCookie = (res, refreshToken) => {
-    res.cookie('token', refreshToken, {
-        httpOnly: true,
-        //secure: getEnv('NODE_ENV') === PRODUCTION ? true : false,
-        path: '/',
-        expires: new Date(Date.now() + 60 * 60 * 24 * 30 * 1000),
-    });
-};
 let refreshTokens = [];
 class UsersController {
     login(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log('req=', req);
+            console.log('req.rawHeaders=', req.rawHeaders);
             // read username and password from request body
             const { email, password } = req.body;
             //Проверяем соответсвуют ли данные логина данным пользователя (email и password)
@@ -84,7 +76,7 @@ class UsersController {
                     const accessToken = (0, generateTokens_1.createAccessToken)(userInfo.id);
                     const refreshToken = (0, generateTokens_1.createRefreshToken)(userInfo.id);
                     //refreshTokens.push(refreshToken);
-                    createLoginCookie(res, refreshToken);
+                    //createLoginCookie(res, refreshToken);
                     res.json({
                         accessToken,
                         refreshToken,

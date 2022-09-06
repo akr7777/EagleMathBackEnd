@@ -37,14 +37,15 @@ const fileCopy = async (oldFile: string, newFile: string) => {
         console.log('Файл успешно скопирован');
     });
 }
-const createLoginCookie = (res:any, refreshToken:any) => {
+/*const createLoginCookie = (res:any, refreshToken:any) => {
     res.cookie('token', refreshToken, {
         httpOnly: true,
         //secure: getEnv('NODE_ENV') === PRODUCTION ? true : false,
+        secure: false,
         path: '/',
         expires: new Date(Date.now() + 60 * 60 * 24 * 30 * 1000),
     })
-}
+}*/
 
 //const accessTokenSecret = process.env.accessTokenSecret;
 //const refreshTokenSecret = process.env.refreshTokenSecret;
@@ -59,7 +60,7 @@ let refreshTokens: Array<UserTokenDataType> = [];
 
 class UsersController {
     async login(req: any, res: any) {
-        console.log('req=', req)
+        console.log('req.rawHeaders=', req.rawHeaders)
         // read username and password from request body
         const {email, password} = req.body;
 
@@ -81,7 +82,7 @@ class UsersController {
                 const refreshToken = createRefreshToken(userInfo.id);
 
                 //refreshTokens.push(refreshToken);
-                createLoginCookie(res, refreshToken);
+                //createLoginCookie(res, refreshToken);
 
                 res.json({
                     accessToken,
