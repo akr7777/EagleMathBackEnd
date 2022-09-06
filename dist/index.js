@@ -22,7 +22,7 @@ app.use(fileUpload({}));
 app.use(express_1.default.static('src/public'));
 /*const Router = require("express");
 export const router = new Router();*/
-app.get('/', cors(), (req, res, next) => {
+app.get('/', cors(), (req, res) => {
     res.send('This is an empty END POINT /');
 });
 app.use('/materials', materialsRouter);
