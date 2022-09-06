@@ -68,7 +68,6 @@ class UsersController {
             // read username and password from request body
             const { email, password } = req.body;
             //Проверяем соответсвуют ли данные логина данным пользователя (email и password)
-            let user = null;
             const SQL = `SELECT id,name,email,isadmin FROM USERS WHERE email='${email}' AND password='${password}';`;
             let client = new pg_1.default.Client(process.env.DATABASE_URL);
             yield client.connect();
@@ -88,7 +87,7 @@ class UsersController {
                     createLoginCookie(res, refreshToken);
                     res.json({
                         accessToken,
-                        //refreshToken,
+                        refreshToken,
                         userInfo,
                         resultCode: 0,
                     });

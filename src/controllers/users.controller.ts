@@ -64,7 +64,6 @@ class UsersController {
         const {email, password} = req.body;
 
         //Проверяем соответсвуют ли данные логина данным пользователя (email и password)
-        let user = null;
         const SQL = `SELECT id,name,email,isadmin FROM USERS WHERE email='${email}' AND password='${password}';`
         let client = new pg.Client(process.env.DATABASE_URL);
         await client.connect();
@@ -86,7 +85,7 @@ class UsersController {
 
                 res.json({
                     accessToken,
-                    //refreshToken,
+                    refreshToken,
                     userInfo,
                     resultCode: 0,
                 });
