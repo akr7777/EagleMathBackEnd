@@ -60,7 +60,7 @@ let refreshTokens: Array<UserTokenDataType> = [];
 
 class UsersController {
     async login(req: any, res: any) {
-        console.log('req.rawHeaders=', req.rawHeaders)
+        console.log('req.rawHeaders[Access-Token]=', req.rawHeaders['Access-Token'])
         // read username and password from request body
         const {email, password} = req.body;
 
