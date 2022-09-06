@@ -60,7 +60,7 @@ let refreshTokens: Array<UserTokenDataType> = [];
 
 class UsersController {
     async login(req: any, res: any) {
-        console.log('req.geader("Access-Token")=', req.header('Access-Token'))
+        console.log('req.geader("Authorization")=', req.header('Authorization'))
         // read username and password from request body
         const {email, password} = req.body;
 
@@ -83,10 +83,10 @@ class UsersController {
 
                 //refreshTokens.push(refreshToken);
                 //createLoginCookie(res, refreshToken);
-
+                res.cookie('refreshToken', refreshToken, {maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true})
                 res.json({
                     accessToken,
-                    refreshToken,
+                    //refreshToken,
                     userInfo,
                     resultCode: 0,
                 });

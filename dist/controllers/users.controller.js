@@ -56,7 +56,7 @@ let refreshTokens = [];
 class UsersController {
     login(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log('req.geader("Access-Token")=', req.header('Access-Token'));
+            console.log('req.geader("Authorization")=', req.header('Authorization'));
             // read username and password from request body
             const { email, password } = req.body;
             //Проверяем соответсвуют ли данные логина данным пользователя (email и password)
@@ -77,9 +77,10 @@ class UsersController {
                     const refreshToken = (0, generateTokens_1.createRefreshToken)(userInfo.id);
                     //refreshTokens.push(refreshToken);
                     //createLoginCookie(res, refreshToken);
+                    res.cookie('refreshToken', refreshToken, { maxAge: 30 * 24 * 60 * 60 * 1000, httpOnly: true });
                     res.json({
                         accessToken,
-                        refreshToken,
+                        //refreshToken,
                         userInfo,
                         resultCode: 0,
                     });
