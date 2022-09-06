@@ -19,6 +19,7 @@ const pathToUploadsDir = './src/public/uploads/';
 const pathToFolder = '/app';
 const pathToStandartAva = path.join(pathToFolder, pathToUploadsDir, 'abstractAvatar.jpeg');
 const uuid_1 = require("uuid");
+const generateTokens_1 = require("../utils/generateTokens");
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const checkFileExist = (path) => {
@@ -51,8 +52,14 @@ const fileCopy = (oldFile, newFile) => __awaiter(void 0, void 0, void 0, functio
         console.log('Файл успешно скопирован');
     });
 });
-const accessTokenSecret = process.env.accessTokenSecret;
-const refreshTokenSecret = process.env.refreshTokenSecret;
+const createLoginCookie = (res, refreshToken) => {
+    res.cookie('token', refreshToken, {
+        httpOnly: true,
+        //secure: getEnv('NODE_ENV') === PRODUCTION ? true : false,
+        path: '/',
+        expires: new Date(Date.now() + 60 * 60 * 24 * 30 * 1000),
+    });
+};
 let refreshTokens = [];
 class UsersController {
     login(req, res) {
@@ -67,69 +74,128 @@ class UsersController {
             yield client.connect();
             const dbData = yield client.query(SQL);
             if (dbData.rows.length === 1) {
-                user = {
-                    id: dbData.rows[0].id,
-                    name: dbData.rows[0].name,
-                    email: dbData.rows[0].email,
-                    isAdmin: dbData.rows[0].isadmin,
-                };
-            }
-            if (user) {
                 // generate an access token
-                const userToken = {
+                const userInfo = {
                     id: dbData.rows[0].id,
                     name: dbData.rows[0].name,
                     email: dbData.rows[0].email,
                     isAdmin: dbData.rows[0].isadmin,
                 };
-                const accessToken = jwt.sign(userToken, accessTokenSecret, { expiresIn: '20m' });
-                const refreshToken = jwt.sign(userToken, refreshTokenSecret);
-                refreshTokens.push(refreshToken);
-                res.json(Object.assign(Object.assign({ accessToken,
-                    refreshToken }, userToken), { resultCode: 0 }));
-            }
-            else {
-                res.send({ resultCode: 10 }); //Если пользователя нет в БД, отправляем этот resultCode
+                if (userInfo) {
+                    const accessToken = (0, generateTokens_1.createAccessToken)(userInfo.id);
+                    const refreshToken = (0, generateTokens_1.createRefreshToken)(userInfo.id);
+                    //refreshTokens.push(refreshToken);
+                    createLoginCookie(res, refreshToken);
+                    res.json({
+                        accessToken,
+                        //refreshToken,
+                        userInfo,
+                        resultCode: 0,
+                    });
+                }
+                else {
+                    res.send({ resultCode: 10 }); //Если пользователя нет в БД, отправляем этот resultCode
+                }
             }
             yield client.end();
         });
     }
-    //обработчик запроса, который генерирует новые токены на основе обновленных токенов:
-    token(req, res) {
+    getAccessToken(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { token } = req.body;
-            if (!token) {
-                return res.sendStatus(401);
+            try {
+                const rfToken = req.cookies.token;
+                if (!rfToken) {
+                    res.status(400);
+                    throw new Error('Пожалуйста, войдите в систему!');
+                }
+                const result = jwt.verify(rfToken, process.env.REFRESH_TOKEN_SECRET);
+                if (!result) {
+                    res.status(400);
+                    throw new Error('Неверный токен или закончился.');
+                }
+                //const user = await User.findById(result.id)
+                try {
+                    const SQL = `SELECT * FROM USERS WHERE id='${result.id}';`;
+                    let client = new pg_1.default.Client(process.env.DATABASE_URL);
+                    yield client.connect();
+                    const dbData = yield client.query(SQL);
+                    //console.log('UsersController / login / dbData=', dbData)
+                    if (dbData.rows.length === 1) {
+                        const accessToken = (0, generateTokens_1.createAccessToken)(dbData.rows[0].id);
+                        res.json({
+                            userInfo: {
+                                id: dbData.rows[0].id,
+                                email: dbData.rows[0].email,
+                                name: dbData.rows[0].name,
+                                isAdmin: dbData.rows[0].isadmin,
+                            },
+                            accessToken,
+                        });
+                    }
+                    else {
+                        res.status(400);
+                        throw new Error('Пользователь не найден.');
+                    }
+                }
+                catch (e) {
+                    console.log('error!!!!!!!!!=', e);
+                }
             }
-            if (!refreshTokens.includes(token)) {
+            catch (error) {
+                res.status(500);
+                throw new Error(error.message);
+            }
+        });
+    }
+    logoutUser(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            res
+                .cookie('token', '', {
+                httpOnly: true,
+                path: '/',
+                expires: new Date(0),
+            })
+                .send();
+        });
+    }
+    //обработчик запроса, который генерирует новые токены на основе обновленных токенов:
+    /*async token(req: any, res: any) {
+        const {token} = req.body;
+
+        if (!token) {
+            return res.sendStatus(401);
+        }
+
+        if (!refreshTokens.includes(token)) {
+            return res.sendStatus(403);
+        }
+
+        jwt.verify(token, refreshTokenSecret, (err: any, user: UserTokenDataType) => {
+            if (err) {
                 return res.sendStatus(403);
             }
-            jwt.verify(token, refreshTokenSecret, (err, user) => {
-                if (err) {
-                    return res.sendStatus(403);
-                }
-                const userToken = {
-                    id: user.id,
-                    name: user.name,
-                    email: user.email,
-                    isAdmin: user.isAdmin,
-                };
-                const accessToken = jwt.sign(userToken, accessTokenSecret, { expiresIn: '20m' });
-                res.json({
-                    accessToken
-                });
+
+            const userToken = {
+                id: user.id,
+                name: user.name,
+                email: user.email,
+                isAdmin: user.isAdmin,
+            }
+            const accessToken = jwt.sign(userToken, accessTokenSecret, {expiresIn: '20m'});
+
+            res.json({
+                accessToken
             });
         });
-    }
+    }*/
     //Если токен refresh будет украден у пользователя, кто-то может использовать его для генерации любого количества новых токенов.
     // Чтобы избежать этого, давайте реализуем простую функцию выхода из системы:
-    logout(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const { token } = req.body;
-            refreshTokens = refreshTokens.filter(t => t !== token);
-            res.send("Logout successful");
-        });
+    /*async logout(req: any, res: any) {
+        const {token} = req.body;
+        refreshTokens = refreshTokens.filter(t => t !== token);
+        res.send("Logout successful");
     }
+*/
     /*async login(req: any, res: any) {
         const {email, password} = req.body;
 

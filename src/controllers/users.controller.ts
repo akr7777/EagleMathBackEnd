@@ -6,6 +6,7 @@ const pathToUploadsDir = './src/public/uploads/';
 const pathToFolder = '/app';
 const pathToStandartAva = path.join(pathToFolder, pathToUploadsDir, 'abstractAvatar.jpeg');
 import {v1} from 'uuid';
+import {createAccessToken, createRefreshToken} from "../utils/generateTokens";
 
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
@@ -36,9 +37,17 @@ const fileCopy = async (oldFile: string, newFile: string) => {
         console.log('Файл успешно скопирован');
     });
 }
+const createLoginCookie = (res:any, refreshToken:any) => {
+    res.cookie('token', refreshToken, {
+        httpOnly: true,
+        //secure: getEnv('NODE_ENV') === PRODUCTION ? true : false,
+        path: '/',
+        expires: new Date(Date.now() + 60 * 60 * 24 * 30 * 1000),
+    })
+}
 
-const accessTokenSecret = process.env.accessTokenSecret;
-const refreshTokenSecret = process.env.refreshTokenSecret;
+//const accessTokenSecret = process.env.accessTokenSecret;
+//const refreshTokenSecret = process.env.refreshTokenSecret;
 
 type UserTokenDataType = {
     id: string,
@@ -61,42 +70,95 @@ class UsersController {
         await client.connect();
         const dbData = await client.query(SQL);
         if (dbData.rows.length === 1) {
-            user = {
-                id: dbData.rows[0].id,
-                name: dbData.rows[0].name,
-                email: dbData.rows[0].email,
-                isAdmin: dbData.rows[0].isadmin,
-            }
-        }
-        if (user) {
             // generate an access token
-            const userToken = {
+            const userInfo = {
                 id: dbData.rows[0].id,
                 name: dbData.rows[0].name,
                 email: dbData.rows[0].email,
                 isAdmin: dbData.rows[0].isadmin,
             }
-            const accessToken = jwt.sign(userToken, accessTokenSecret, {expiresIn: '20m'});
-            const refreshToken = jwt.sign(userToken, refreshTokenSecret);
+            if (userInfo) {
+                const accessToken = createAccessToken(userInfo.id);
+                const refreshToken = createRefreshToken(userInfo.id);
 
-            refreshTokens.push(refreshToken);
+                //refreshTokens.push(refreshToken);
+                createLoginCookie(res, refreshToken);
 
-            res.json({
-                accessToken,
-                refreshToken,
-
-                ...userToken,
-                resultCode: 0,
-            });
-        } else {
-            res.send({resultCode: 10}); //Если пользователя нет в БД, отправляем этот resultCode
+                res.json({
+                    accessToken,
+                    //refreshToken,
+                    userInfo,
+                    resultCode: 0,
+                });
+            }
+            else {
+                res.send({resultCode: 10}); //Если пользователя нет в БД, отправляем этот resultCode
+            }
         }
 
         await client.end();
     }
 
+    async getAccessToken (req:any, res: any) {
+        try {
+            const rfToken = req.cookies.token
+            if (!rfToken) {
+                res.status(400)
+                throw new Error('Пожалуйста, войдите в систему!')
+            }
+
+            const result = jwt.verify(rfToken, process.env.REFRESH_TOKEN_SECRET)
+            if (!result) {
+                res.status(400)
+                throw new Error('Неверный токен или закончился.')
+            }
+
+            //const user = await User.findById(result.id)
+            try {
+                const SQL = `SELECT * FROM USERS WHERE id='${result.id}';`
+                let client = new pg.Client(process.env.DATABASE_URL);
+                await client.connect();
+                const dbData = await client.query(SQL);
+
+                //console.log('UsersController / login / dbData=', dbData)
+
+                if (dbData.rows.length === 1) {
+                    const accessToken = createAccessToken(dbData.rows[0].id)
+
+                    res.json({
+                        userInfo: {
+                            id: dbData.rows[0].id,
+                            email: dbData.rows[0].email,
+                            name: dbData.rows[0].name,
+                            isAdmin: dbData.rows[0].isadmin,
+                        },
+                        accessToken,
+                    })
+                } else {
+                    res.status(400)
+                    throw new Error('Пользователь не найден.')
+                }
+            } catch (e) {
+                console.log('error!!!!!!!!!=', e)
+            }
+
+        } catch (error: any) {
+            res.status(500)
+            throw new Error(error.message)
+        }
+    }
+
+    async logoutUser (req: any, res: any)  {
+        res
+            .cookie('token', '', {
+                httpOnly: true,
+                path: '/',
+                expires: new Date(0),
+            })
+            .send()
+    }
     //обработчик запроса, который генерирует новые токены на основе обновленных токенов:
-    async token(req: any, res: any) {
+    /*async token(req: any, res: any) {
         const {token} = req.body;
 
         if (!token) {
@@ -124,16 +186,16 @@ class UsersController {
                 accessToken
             });
         });
-    }
+    }*/
 
     //Если токен refresh будет украден у пользователя, кто-то может использовать его для генерации любого количества новых токенов.
     // Чтобы избежать этого, давайте реализуем простую функцию выхода из системы:
-    async logout(req: any, res: any) {
+    /*async logout(req: any, res: any) {
         const {token} = req.body;
         refreshTokens = refreshTokens.filter(t => t !== token);
         res.send("Logout successful");
     }
-
+*/
     /*async login(req: any, res: any) {
         const {email, password} = req.body;
 
