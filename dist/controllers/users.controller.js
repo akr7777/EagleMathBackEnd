@@ -56,7 +56,7 @@ let refreshTokens = [];
 class UsersController {
     login(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log('req.rawHeaders[Access-Token]=', req.rawHeaders['Access-Token']);
+            console.log('req.geader("Access-Token")=', req.header('Access-Token'));
             // read username and password from request body
             const { email, password } = req.body;
             //Проверяем соответсвуют ли данные логина данным пользователя (email и password)
