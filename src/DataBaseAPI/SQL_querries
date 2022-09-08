@@ -1,6 +1,9 @@
 DROP TABLE categories;
 DROP TABLE materials;
 DROP TABLE tasks;
+DROP TABLE contacts;
+DROP TABLE users;
+DROP TABLE description;
 
 --Создаем таблицы:
 
@@ -44,7 +47,7 @@ INSERT INTO tasks (id, parentId, label, content) VALUES ('210', '6', 'задач
 INSERT INTO tasks (id, parentId, label, content) VALUES ('211', '6', 'задача физика 333222', 'Контент материала по теме физика задача 333222');
 
 -- Создаем таблицы пользователей и заполняем тестовыми данными
-DROP TABLE users;
+
 CREATE TABLE users (
     id varchar(255),
     name varchar(255),
@@ -57,7 +60,7 @@ INSERT INTO users (id, name, email, isAdmin, photo, password) VALUES ('001', 'ad
 INSERT INTO users (id, name, email, isAdmin, photo, password) VALUES ('002', 'user', 'user@user.com', false, 'https://sun9-66.userapi.com/impf/c631327/v631327124/408fb/eaoqCnHgE9Y.jpg?size=500x333&quality=96&proxy=1&sign=768119c80964830c65b8cc826fe7c8f8&type=album', '111');
 
 -- Создаем таблицы описание и заполняем тестовыми данными.
-DROP TABLE description;
+
 CREATE TABLE description (
     title varchar(255),
     photo varchar(255),
@@ -67,7 +70,7 @@ INSERT INTO description (title, photo, description) VALUES ('this is descripton8
 UPDATE description SET title='111', photo='222', description='333';
 
 -- Создаем таблицы описание и заполняем тестовыми данными.
-DROP TABLE contacts;
+
 CREATE TABLE contacts (
     title varchar(255),
     description varchar,
@@ -80,3 +83,9 @@ CREATE TABLE contacts (
 INSERT INTO contacts (title, description, phone, telegram, whatsapp, email, skype)
 VALUES ('Title', 'description', '89991234567', 'tg', 'wa', 'email', 'skype');
 UPDATE description SET title='111', photo='222', description='333';
+
+
+CREATE TABLE token (
+    userid varchar(255),
+    refreshToken varchar
+);

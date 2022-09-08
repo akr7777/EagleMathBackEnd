@@ -16,9 +16,13 @@ const pg_1 = __importDefault(require("pg"));
 class CategoriesController {
     getAllCategories(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
+            console.log('CategoriesController / getAllCategories');
             const text = 'Select * from categories;';
+            //let client = new pg.Client(process.env.DATABASE_URL);
             let client = new pg_1.default.Client(process.env.DATABASE_URL);
+            console.log('CategoriesController / getAllCategories before connection');
             yield client.connect();
+            console.log('CategoriesController / getAllCategories after connection');
             const allCategories = yield client.query(text);
             res.status(200).json(allCategories.rows);
             yield client.end();

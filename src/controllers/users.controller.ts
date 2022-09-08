@@ -2,6 +2,8 @@ import pg from 'pg';
 
 const fs = require('fs');
 const path = require('path');
+const bcrypt = require('bcrypt');
+
 const pathToUploadsDir = './src/public/uploads/';
 const pathToFolder = '/app';
 const pathToStandartAva = path.join(pathToFolder, pathToUploadsDir, 'abstractAvatar.jpeg');
@@ -65,11 +67,12 @@ class UsersController {
         const {email, password} = req.body;
 
         //Проверяем соответсвуют ли данные логина данным пользователя (email и password)
-        const SQL = `SELECT id,name,email,isadmin FROM USERS WHERE email='${email}' AND password='${password}';`
+        const SQL = `SELECT id,name,email,isadmin,password FROM USERS WHERE email='${email}';`
         let client = new pg.Client(process.env.DATABASE_URL);
         await client.connect();
         const dbData = await client.query(SQL);
-        if (dbData.rows.length === 1) {
+        console.log('LOGIN dbData.rows.length === 1, bcrypt.compare(password, dbData.rows[0].password)= ', dbData.rows.length === 1, bcrypt.compare(password, dbData.rows[0].password))
+        if (dbData.rows.length === 1 && bcrypt.compare(password, dbData.rows[0].password)) {
             // generate an access token
             const userInfo = {
                 id: dbData.rows[0].id,
@@ -95,6 +98,8 @@ class UsersController {
                 res.send({resultCode: 10}); //Если пользователя нет в БД, отправляем этот resultCode
             }
         }
+        else
+            res.json({message: 'Пользоваьтель не найден или пароль не подходит'});
 
         await client.end();
     }
@@ -115,7 +120,7 @@ class UsersController {
 
             //const user = await User.findById(result.id)
             try {
-                const SQL = `SELECT * FROM USERS WHERE id='${result.id}';`
+                const SQL = `SELECT id,email,name,isadmin FROM USERS WHERE id='${result.id}';`
                 let client = new pg.Client(process.env.DATABASE_URL);
                 await client.connect();
                 const dbData = await client.query(SQL);
@@ -138,6 +143,7 @@ class UsersController {
                     res.status(400)
                     throw new Error('Пользователь не найден.')
                 }
+                await client.end();
             } catch (e) {
                 console.log('error!!!!!!!!!=', e)
             }
@@ -254,8 +260,9 @@ class UsersController {
                 if (checkFileExist(avaLocation))
                     console.log('Стандартный  аватар успешно скопирован.')
 
+                const hashPassword = await bcrypt.hash(password, 3);
                 const SQL = `INSERT INTO users (id, name, email, isAdmin, photo, password) 
-                        VALUES ('${newUserId}', '${name}', '${email}', false, '${avaLocation}', '${password}');`
+                        VALUES ('${newUserId}', '${name}', '${email}', false, '${avaLocation}', '${hashPassword}');`
 
                 const dbData = await client.query(SQL);
 
