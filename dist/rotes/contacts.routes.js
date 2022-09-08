@@ -5,6 +5,7 @@ const Router = require("express");
 exports.router = new Router();
 const contactsController = require('./../controllers/contacts.controller');
 const authMiddleware = require('../middlewares/auth-middleware');
+const i = 1;
 exports.router.get('/getContacts', authMiddleware, contactsController.getContacts);
 exports.router.post('/setContacts', contactsController.setContacts);
 module.exports = exports.router;
